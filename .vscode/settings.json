@@ -1,0 +1,15 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "editor.formatOnPaste": true,
+  "stylelint.enable": true,
+  "stylelint.validate": [
+    "css",
+    "less"
+  ],
+  "vue.codeActions.enabled": false
+}
