@@ -2,7 +2,7 @@
   "compilerOptions": {
     "checkJs": false,
     "target": "es2017",
-    "module": "commonjs",
+    "module": "ESNext",
     "removeComments": false,
     "preserveConstEnums": true,
     "moduleResolution": "node",
@@ -23,20 +23,9 @@
       "node_modules/@types"
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@components/*": ["./src/components/*"],
-      "@assets/*": ["./src/assets/*"],
-      "@router/*": ["./src/router/*"],
-      "@store/*": ["./src/store/*"],
-      "@api/*": ["./src/api/*"],
-      "@views/*": ["./src/views/*"],
-      "@config/*": ["./src/config/*"],
+      "@/*": ["./src/*"]
     }
   },
-  "include": ["./src", "./types", "./auto-imports.d.ts", "components.d.ts", "@tonyptang/store-helper/vuex"],
-	"vueCompilerOptions": {
-		"experimentalDisableTemplateSupport": true
-	},
+  "include": ["./src", "./types", "./auto-imports.d.ts", "components.d.ts", "env.d.ts"],
   "compileOnSave": false
 }

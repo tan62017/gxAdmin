@@ -1,0 +1,72 @@
+html::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.sys-time-picker {
+  .today {
+    .cell {
+      color: var(--el-datepicker-text-color) !important;
+      font-weight: normal !important;
+    }
+  }
+}
+
+:root {
+  --navigation-bar-height: 85px;
+}
+
+.arrow-up {
+  &::after {
+    content: "";
+    display: inline-block;
+    width: 11px;
+    height: 8px;
+    background: url("@/assets/images/arrow-up.png") no-repeat 0 0 / 100% 100%;
+  }
+}
+
+.arrow-down {
+  &::after {
+    content: "";
+    display: inline-block;
+    width: 11px;
+    height: 8px;
+    background: url("@/assets/images/arrow-down.png") no-repeat 0 0 / 100% 100%;
+  }
+}
+
+.rank0 {
+  width: 22px;
+  height: 22px;
+  background: url("@/assets/images/rank0.png") no-repeat 0 0 / 100% 100%;
+  display: inline-block;
+}
+
+.rank1 {
+  width: 22px;
+  height: 22px;
+  background: url("@/assets/images/rank1.png") no-repeat 0 0 / 100% 100%;
+  display: inline-block;
+}
+
+.rank2 {
+  width: 22px;
+  height: 22px;
+  background: url("@/assets/images/rank2.png") no-repeat 0 0 / 100% 100%;
+  display: inline-block;
+}
+
+:root {
+  --menu-width: 250px;
+  --font-color: #515256;
+  --font-color-active: #0645ed;
+  --ent-tag-color: #4281f4;
+  --table-border-color: #d9dadb;
+  --font-color-deep: #111317;
+  --el-color-primary: #0645ed;
+  --el-color-primary-light-5: #0645ed;
+}
+.app {
+  width: 100vw;
+  height: 100vh;
+}

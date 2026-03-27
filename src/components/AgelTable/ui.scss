@@ -1,0 +1,277 @@
+// 表格公用
+.table-commom-ui {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+
+	.el-loading-spinner {
+		--el-color-primary: #61bfde;
+	}
+
+	.el-pagination {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0px 1px;
+
+		--el-color-primary: rgba(38, 53, 56, 0.5);
+		--el-text-color-placeholder: #fff;
+		--el-disabled-bg-color: rgba(38, 53, 56, 0.5);
+		--el-pagination-button-bg-color: rgba(38, 53, 56, 0.5);
+		--el-text-color-regular: #fff;
+		--el-pagination-bg-color: transparent;
+		--el-fill-color-blank: transparent;
+		--el-pagination-button-color: #fff;
+		--el-pagination-font-size: 18px;
+		--el-pagination-hover-color: #fff;
+		.el-pager li {
+			border: 1px solid rgba(85, 226, 255, 0.5);
+		}
+		.el-pager li.is-active {
+			background: rgba(0, 90, 165, 0.2);
+			box-shadow: inset 0px 5px 5px 0px rgba(0, 213, 255, 0.2), inset 0px -5px 5px 0px rgba(63, 223, 255, 0.2);
+			border-radius: 0px 0px 0px 0px;
+			opacity: 1;
+			border: 1px solid #3cdeff;
+		}
+		button {
+			border: 1px solid rgba(85, 226, 255, 0.5);
+		}
+	}
+}
+
+// 表格默认样式
+.table-default-ui {
+	background: #000;
+	.el-table {
+		--el-fill-color-light: transparent;
+		--el-table-header-bg-color: transparent;
+		--el-table-bg-color: transparent;
+		--el-table-tr-bg-color: transparent;
+		--el-table-text-color: #fff;
+		--el-table-header-text-color: #fff;
+		--el-table-border: 0px;
+		--el-table-row-hover-bg-color: rgba(10, 101, 147, 0.2);
+		--el-fill-color-lighter: rgba(76, 131, 177, 0.1);
+		--el-table-border-color: transparent;
+		--el-mask-color: rgba(0, 0, 0, 0.1);
+		thead {
+			--el-table-tr-bg-color: rgba(6,69,237,0.1);
+		}
+	}
+	.el-table__header thead {
+		font-size: 16px;
+		font-weight: 600;
+		background: url('./images/table-header-1.png') 0% 0% / 100% 100% no-repeat;
+	}
+
+	.el-table__body td {
+		font-size: 16px;
+		font-family: D-DIN-Bold, D-DIN;
+		font-weight: 700;
+	}
+	.el-table__cell {
+		padding: 15px 0px;
+		position: relative;
+	}
+	.table-index-bg {
+		display: inline-block;
+		min-width: 24px;
+		height: 20px;
+		background: linear-gradient(90deg, rgba(0, 213, 255, 0.56) 0%, rgba(0, 213, 255, 0) 100%);
+		border-radius: 0px 0px 0px 0px;
+		opacity: 1;
+	}
+	.el-scrollbar__thumb {
+		background-color: #08afd1;
+		opacity: 0.8;
+	}
+}
+
+// 带 border 用于合并表格样式
+.table-grid-ui {
+	.el-table {
+		--el-bg-color: rgba(16, 67, 109, 0.2);
+		--bg: rgba(16, 67, 109, 0.2);
+		--el-fill-color-light: var(--bg);
+		--el-table-header-bg-color: var(--bg);
+		--el-table-bg-color: var(--bg);
+		--el-table-tr-bg-color: var(--bg);
+		--el-table-border-color: rgba(45, 149, 170, 0.5);
+		--el-table-text-color: #fff;
+		--el-table-header-text-color: #fff;
+		--el-table-row-hover-bg-color: rgba(10, 101, 147, 0.2);
+		--el-fill-color-lighter: rgba(76, 131, 177, 0.1);
+		--el-mask-color: rgba(0, 0, 0, 0.1);
+	}
+	.el-table__empty-block {
+		background-color: rgba(16, 67, 109, 0.2);
+	}
+
+	.el-table__header thead {
+		font-size: 16px;
+		font-weight: 600;
+	}
+
+	.el-table__body td {
+		font-size: 15px;
+		font-family: D-DIN-Bold, D-DIN;
+		font-weight: 700;
+	}
+	.el-table__cell {
+		padding: 15px 0px;
+		position: relative;
+	}
+}
+
+// 企业列表中左侧行业表格样式
+.table-industry-ui {
+	.el-table {
+		--el-fill-color-light: transparent;
+		--el-table-header-bg-color: transparent;
+		--el-table-bg-color: transparent;
+		--el-table-tr-bg-color: rgba(24, 74, 100, 0.2);
+		--el-table-text-color: #fff;
+		--el-table-header-text-color: #00d4ff;
+		--el-table-border: transparent;
+		--el-table-row-hover-bg-color: rgba(10, 101, 147, 0.2);
+		--el-fill-color-lighter: transparent;
+		--el-table-border-color: transparent;
+		--el-mask-color: rgba(0, 0, 0, 0.1);
+		--el-table-current-row-bg-color: transparent;
+	}
+
+	.el-table__header thead {
+		font-size: 16px;
+		font-weight: 600;
+		background: url('./images/table-header-3.png') 0% 0% / 100% 100% no-repeat;
+	}
+
+	.el-table__body {
+		border-spacing: 0px 3px !important;
+	}
+
+	.el-table__body td {
+		font-size: 16px;
+		font-family: PingFang SC-Medium, PingFang SC;
+		font-weight: 400;
+		padding: 0;
+	}
+	.el-table__cell {
+		position: relative;
+		padding: 0;
+	}
+	.el-table .cell {
+		padding: 7px;
+	}
+	.el-scrollbar__thumb {
+		background-color: #08afd1;
+		opacity: 0.8;
+	}
+	.el-table__row.current-row {
+		box-shadow: inset 0px -3px 14px 0px rgba(74, 173, 255, 0.5), inset 0px 3px 14px 0px rgba(74, 173, 255, 0.62);
+		border-image: linear-gradient(180deg, rgba(22.950000911951065, 100.30000314116478, 255, 1), rgba(0, 212.4999949336052, 255, 1)) 1 1;
+	}
+	.el-table__row {
+		cursor: pointer;
+	}
+}
+
+// 党建清单列表
+.table-party-ui {
+	.el-table__row:nth-child(odd) {
+		background: url('./images/rowbg1-icon.png');
+		background-size: 100% 100%;
+	}
+	.el-table__row:nth-child(even) {
+		background: url('./images/rowbg2-icon.png');
+		background-size: 100% 100%;
+	}
+	.el-table__row.current {
+		background: url('./images/active-icon.png');
+		background-size: 100% 100%;
+	}
+	.el-table {
+		--el-fill-color-light: transparent;
+		--el-table-header-bg-color: transparent;
+		--el-table-bg-color: transparent;
+		--el-table-tr-bg-color: transparent;
+		--el-table-text-color: #fff;
+		--el-table-header-text-color: #fff;
+		--el-table-border: transparent;
+		--el-table-row-hover-bg-color: transparent;
+		--el-fill-color-lighter: transparent;
+		--el-table-border-color: transparent;
+		--el-mask-color: rgba(0, 0, 0, 0.1);
+		--el-table-current-row-bg-color: transparent;
+	}
+
+	.el-table__body {
+		border-spacing: 0px 3px !important;
+	}
+
+	.el-table__header thead {
+		font-size: 14px;
+		font-weight: 400;
+	}
+
+	.el-table__body td {
+		font-size: 15px;
+		font-family: PingFang SC-Medium, PingFang SC;
+		font-weight: 400;
+		padding: 0;
+	}
+	.el-table__cell {
+		position: relative;
+		padding: 0;
+	}
+	.el-table .cell {
+		padding: 7px;
+	}
+	.el-scrollbar__thumb {
+		background-color: #08afd1;
+		opacity: 0.8;
+	}
+
+	.el-table__row {
+		cursor: pointer;
+	}
+}
+
+// 带 border 用于合并表格样式
+.table-ent-ui {
+	.el-table {
+		--el-bg-color: rgba(16, 67, 109, 0.2);
+		--bg: rgba(16, 67, 109, 0.2);
+		--el-fill-color-light: var(--bg);
+		--el-table-header-bg-color: var(--bg);
+		--el-table-bg-color: rgba(16, 67, 109, 0);
+		--el-table-tr-bg-color: var(--el-table-bg-color);
+		--el-table-border-color: rgba(45, 149, 170, 0.5);
+		--el-table-text-color: #fff;
+		--el-table-header-text-color: #fff;
+		--el-table-row-hover-bg-color: rgba(10, 101, 147, 0.2);
+		--el-fill-color-lighter: rgba(76, 131, 177, 0.1);
+		--el-mask-color: rgba(0, 0, 0, 0.1);
+
+	}
+	.el-table__empty-block {
+		background-color: rgba(16, 67, 109, 0.2);
+	}
+
+	.el-table__header thead {
+		font-size: 16px;
+		font-weight: 600;
+	}
+
+	.el-table__body td {
+		font-size: 15px;
+		font-family: D-DIN-Bold, D-DIN;
+		font-weight: 700;
+	}
+	.el-table__cell {
+		padding: 15px 0px;
+		position: relative;
+	}
+}

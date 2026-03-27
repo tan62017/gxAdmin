@@ -9,6 +9,7 @@ lerna-debug.log*
 components.d.ts
 node_modules
 dist
+gxAdmin
 qianhai-economics*
 qianhai-economics-pro*
 dist-ssr

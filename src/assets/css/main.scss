@@ -1,0 +1,17 @@
+@import url(./reset.css);
+@import url(./global.scss);
+@import url(./base.css);
+.el-drawer {
+  .el-drawer__header {
+  border-bottom: 1px solid #ebeef5;
+  padding-bottom: 20px;
+  margin-bottom: 12px;
+  .el-drawer__title {
+    font-size: 18px;
+    font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+    font-weight: 500;
+    color: #000000;
+  }
+}
+
+}

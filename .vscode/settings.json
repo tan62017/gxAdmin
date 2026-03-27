@@ -1,15 +1,18 @@
 {
-  "editor.codeActionsOnSave": {
-    "source.fixAll": true
+  "files.autoSave": "afterDelay", // 自动保存
+  "files.autoSaveDelay": 1000, // 保存延迟时间（毫秒）
+  "editor.formatOnSave": true, // 保存时自动格式化
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // 默认格式化工具
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode" // 对 Vue 文件使用 Prettier
   },
-  "css.validate": false,
-  "less.validate": false,
-  "scss.validate": false,
-  "editor.formatOnPaste": true,
-  "stylelint.enable": true,
-  "stylelint.validate": [
-    "css",
-    "less"
-  ],
-  "vue.codeActions.enabled": false
+  "prettier.printWidth": 100, // 每行最大字符数
+  "prettier.tabWidth": 2, // Tab 宽度
+  "prettier.useTabs": false, // 使用空格而不是 Tab
+  "prettier.singleQuote": true, // 使用单引号
+  "prettier.trailingComma": "all", // 末尾逗号
+  "prettier.semi": true, // 使用分号
+  "prettier.bracketSpacing": true, // 对象字面量中是否加空格
+  "prettier.arrowParens": "always", // 箭头函数参数是否加括号
+  "prettier.endOfLine": "lf" // 行结束符类型
 }

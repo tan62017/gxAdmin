@@ -1,14 +1,20 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import 'uno.css'
-import App from './App.vue'
-import router from './router'
+import { createApp } from "vue";
+import "uno.css";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+import App from "./App.vue";
+import router from "./router";
+import { pinia } from "./stores";
+import { registerDirectives } from "./directives";
 
-import './assets/main.css'
+import "./assets/css/main.scss";
+import "./utils/addEvent";
 
-const app = createApp(App)
+// userStore.login()
 
-app.use(createPinia())
-app.use(router)
+const app = createApp(App);
 
-app.mount('#app')
+app.use(pinia.use(piniaPluginPersistedstate));
+app.use(router);
+registerDirectives(app);
+
+app.mount("#app");
