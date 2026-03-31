@@ -8,6 +8,8 @@ defineProps({
 const router = useRouter();
 const route = useRoute();
 const routes = router.getRoutes();
+
+const isCollapse = ref(false);
 function getMenuFromRoutes(routes, level = 0) {
   return routes
     .filter((menu) => menu.meta.isMenu && (menu.meta.level || 0) === level)
@@ -82,6 +84,7 @@ const defaultActive = computed(() => route.path);
       :default-openeds="defaultOpeneds"
       :default-active="defaultActive"
       active-text-color="#fff"
+      :collapse="isCollapse"
       class="h100% menu"
       @select="handleSelect"
     >

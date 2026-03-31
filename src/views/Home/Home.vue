@@ -126,10 +126,12 @@ processList(navList.value[0].list);
 .nav-content {
   display: flex;
   // height: 880px;
-  height: 100%;
-  height: calc(100% - 64px);
-  overflow: hidden;
+  //height: 100%;
+  height: calc(100% - 80px);
+  // padding: 20px; //
   margin-top: 20px;
+  background-color: #fff;
+  overflow: hidden;
 
   border-radius: var(--border-radius-num);
 

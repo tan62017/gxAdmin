@@ -33,7 +33,7 @@ const baseUrl =
 
 const hasApi = noApi();
 const hasTime = urlTime();
-  
+
 export const navList = ref([
   {
     label: '全部',
@@ -42,6 +42,7 @@ export const navList = ref([
       {
         label: '社保资金链路驾驶仓',
         icon: img,
+        content: '社保资金链路驾驶仓介绍撒旦黑龙江是的愤怒恐惧你看----------',
         location:
           baseUrl +
           `/gxdatav/index?no_api=${hasApi}&data_time=${hasTime}&from_url=${baseUrl}/gxAdmin/home`,
