@@ -1,21 +1,19 @@
 import {
   useLocalStorage as _useLocalStorage,
   useSessionStorage as _useSessionStorage,
-} from "@vueuse/core";
-import * as fileSaver from "file-saver";
-const prefix = "__qianhai-economics-pc__";
+} from '@vueuse/core';
+import * as fileSaver from 'file-saver';
+const prefix = '__qianhai-economics-pc__';
 export const setHtmlFontSize = (designWidth = 1920, minWidth = 1024) => {
   const docEle = document.documentElement;
   const screenRatioByDesign = 16 / 9;
   const screenRatio = docEle.clientWidth / docEle.clientHeight;
   const fontSize =
-    ((screenRatio > screenRatioByDesign
-      ? screenRatioByDesign / screenRatio
-      : 1) *
+    ((screenRatio > screenRatioByDesign ? screenRatioByDesign / screenRatio : 1) *
       docEle.clientWidth) /
     100;
 
-  docEle.style.fontSize = fontSize.toFixed(3) + "px";
+  docEle.style.fontSize = fontSize.toFixed(3) + 'px';
 };
 
 export const getLocalStorage = (key) => {
@@ -33,16 +31,14 @@ export const setLocalStorage = (key, data) => {
  * @param  {...any} args
  * @returns { import('vue').Ref<any> }
  */
-export const useSessionStorage = (key, ...args) =>
-  _useSessionStorage(prefix + key, ...args);
+export const useSessionStorage = (key, ...args) => _useSessionStorage(prefix + key, ...args);
 /**
  *
  * @param {string} key
  * @param  {...any} args
  * @returns { import('vue').Ref<any> }
  */
-export const useLocalStorage = (key, ...args) =>
-  _useLocalStorage(prefix + key, ...args);
+export const useLocalStorage = (key, ...args) => _useLocalStorage(prefix + key, ...args);
 /**
  *
  * @param {number} ms
@@ -62,9 +58,9 @@ export function isDown(value) {
  * @returns
  */
 export function wanToFixed(num, to = 2) {
-  if (num === null || num === undefined) return "-";
+  if (num === null || num === undefined) return '-';
   num = Number(num);
-  if (isNaN(num)) return "-";
+  if (isNaN(num)) return '-';
   num /= 10000;
   return num.toFixed(to);
 }
@@ -94,7 +90,7 @@ export function getMapData(data, keys) {
  * @returns { string }
  */
 export function formatTime(time) {
-  if (!time) return "";
+  if (!time) return '';
   time = time.toString();
   return `${time.slice(0, 4)}-${time.slice(4, 6)}`;
 }
@@ -106,7 +102,7 @@ export function formatTime(time) {
  * @param {string} dep
  * @returns {string}
  */
-export function toFixed(num, to = 2, dep = "-") {
+export function toFixed(num, to = 2, dep = '-') {
   num = parseFloat(num);
   if (isNaN(num)) {
     return dep;
@@ -120,9 +116,7 @@ export function toFixed(num, to = 2, dep = "-") {
  * @param {string[]} keys
  */
 export function filterEmpty(data, keys) {
-  return data.filter((item) =>
-    keys.some((key) => item[key] !== null && item[key] !== undefined)
-  );
+  return data.filter((item) => keys.some((key) => item[key] !== null && item[key] !== undefined));
 }
 
 /**
@@ -132,13 +126,13 @@ export function filterEmpty(data, keys) {
 export function resolveIndustryValueUnit(name) {
   switch (true) {
     case /工业|建筑/.test(name):
-      return "产值";
+      return '产值';
     case /批发|零售/.test(name):
-      return "销售额";
+      return '销售额';
     case /餐饮|住宿/.test(name):
-      return "营业额";
+      return '营业额';
     default:
-      return "营收";
+      return '营收';
   }
 }
 
@@ -154,30 +148,12 @@ export function formatter(r, c, v) {
   return toFixed(v);
 }
 
-export function resolveIndustryValueName(name) {
-  const map = {
-    工业: "产值",
-    营利性服务业: "营收",
-    非营利性服务业: "营收",
-    房地产业: "营收",
-    "交通运输、仓储和邮政业": "营收",
-    建筑业: "产值",
-    批发零售业: "销售额",
-    批发和零售业: "销售额",
-    住宿餐饮业: "营业额",
-    住宿和餐饮业: "营业额",
-    金融业: "存款余额",
-    "农、林、牧、渔业": "营收",
-  };
-  return map[name] || "绝对值";
-}
-
 export function formatterWan(r, c, v) {
   return wanToFixed(v);
 }
 
-export async function saveFile(data, name = "表格.xlsx") {
-  const blob = new Blob([data], { type: "application/vnd.ms-excel" });
+export async function saveFile(data, name = '表格.xlsx') {
+  const blob = new Blob([data], { type: 'application/vnd.ms-excel' });
   await fileSaver.saveAs(blob, name);
 }
 
@@ -186,8 +162,8 @@ export function formatter1(r, c, v) {
 }
 
 export function getUrlParams(name) {
-  let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-  let r = window.location.href.split("?")[1]?.match(reg);
+  let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  let r = window.location.href.split('?')[1]?.match(reg);
   if (r != null) {
     return decodeURIComponent(r[2]);
   }
@@ -198,7 +174,7 @@ export function getUrlParams(name) {
  * @returns
  */
 export const noApi = () => {
-  return getUrlParams("no_api") || "";
+  return getUrlParams('no_api') || '';
 };
 
 /**
@@ -206,15 +182,15 @@ export const noApi = () => {
  * @returns
  */
 export const urlTime = () => {
-  return getUrlParams("data_time") || "";
+  return getUrlParams('data_time') || '';
 };
 export const getLocation = () => {
-  return getUrlParams("location") || "";
+  return getUrlParams('location') || '';
 };
 export const pxToRem = (num, baseWidth = 19.2) => {
-  if (!num) return "";
+  if (!num) return '';
   // const baseNum=baseWidth?? 19.2
-  return num / baseWidth + "rem";
+  return num / baseWidth + 'rem';
 };
 
 /**
@@ -223,7 +199,7 @@ export const pxToRem = (num, baseWidth = 19.2) => {
  * @returns
  */
 export function strToHex(str) {
-  var result = "";
+  var result = '';
   for (var i = 0; i < str.length; i++) {
     result += str.charCodeAt(i).toString(16);
   }
@@ -236,7 +212,7 @@ export function strToHex(str) {
  * @returns
  */
 export function hexToStr(hexStr) {
-  var result = "";
+  var result = '';
   for (var i = 0; i < hexStr.length; i += 2) {
     result += String.fromCharCode(parseInt(hexStr.substr(i, 2), 16));
   }
