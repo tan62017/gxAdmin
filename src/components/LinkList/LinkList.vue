@@ -48,7 +48,7 @@ defineProps({
   padding-top: 10px;
   padding-bottom: 30px;
   display: grid;
-  grid-template-columns: 32% 32% 32%;
+  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
   // grid-template-rows: 300px 300px 300px;
   grid-auto-flow: row;
   // display: flex;

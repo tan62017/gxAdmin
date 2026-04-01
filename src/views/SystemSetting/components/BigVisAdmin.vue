@@ -14,7 +14,7 @@
         v-for="item in navList[0].list"
         :key="item.label"
       >
-        <div class="img w360px h250px border-rd-8px overflow-hidden">
+        <div class="img w-38% h250px border-rd-8px overflow-hidden">
           <el-image
             ref="imageRef"
             style="width: 100%; height: 100%"
@@ -34,20 +34,28 @@
           </div>
           <div class="item-content-btns">
             <el-button plain type="primary" @click="editBigVis(item)">编辑</el-button>
-            <el-tooltip :append-to="targetElement" effect="light" trigger="click" placement="top">
+            <el-tooltip
+              ref="tipRef"
+              :append-to="targetElement"
+              effect="light"
+              trigger="click"
+              placement="top"
+            >
               <el-button plain type="warning">删除</el-button>
               <template #content>
                 <div class="tip-content px-8px py-2px">
-                  <div class="tip-content-msg flex items-center">
+                  <div class="tip-content-msg flex items-center font-size-12px">
                     <el-icon style="color: #e6a23c" class="delect-icon mr-4px"
                       ><WarningFilled /></el-icon
                     >请确认删除该大屏
                   </div>
                   <div class="tip-content-btns mt-10px flex justify-end">
                     <el-button size="small" plain type="primary" @click="delectOne(item)"
-                      >编辑</el-button
+                      ><span class="font-size-12px">确认</span></el-button
                     >
-                    <el-button size="small" type="" @click="delectCancel">取消</el-button>
+                    <el-button size="small" type="" @click="delectOneCancel"
+                      ><span class="font-size-12px">取消</span></el-button
+                    >
                   </div>
                 </div>
               </template>
@@ -85,6 +93,7 @@ const drawer = ref(false);
 
 const dialogTitle = ref('添加大屏');
 const targetElement = ref('');
+const tipRef = ref(null);
 
 const formData = reactive({
   name: '',
@@ -153,8 +162,20 @@ const formBtns = [
   },
 ];
 
-const delectOne = () => {};
-const delectCancel = () => {};
+const delectOne = (item) => {
+  closeAllTips();
+};
+const delectOneCancel = () => {
+  closeAllTips();
+};
+
+function closeAllTips() {
+  if (tipRef.value) {
+    tipRef.value.forEach((item) => {
+      item.hide();
+    });
+  }
+}
 
 // 自定义校验函数：同时支持 IPv4 和 IPv6
 function validateIp(rule, value, callback) {
@@ -203,8 +224,9 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .big-vis-list {
+  position: relative;
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: repeat(auto-fill, minmax(650px, 1fr));
   // grid-template-rows: 300px 300px 300px;
   grid-auto-flow: row;
   //   gap: 20px;
@@ -217,5 +239,8 @@ onMounted(() => {
       box-shadow: 0px 1px 5px rgba(40, 40, 211, 0.685);
     }
   }
+}
+.tip-content {
+  font-size: 14px !important;
 }
 </style>

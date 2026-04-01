@@ -13,12 +13,15 @@ defineProps({
 <template>
   <el-sub-menu v-if="menu.children && menu.children.length" :index="menu.path">
     <template #title>
-      <el-icon
-        :class="defaultActive === menu.path ? menu.elIconAc : menu.elIcon"
-      >
-        <component :is="menu.icon"></component>
-      </el-icon>
-      <span>{{ menu.title }}</span>
+      <div class="menu-content">
+        <el-icon
+          class="icon-info"
+          :class="defaultActive === menu.path ? menu.elIconAc : menu.elIcon"
+        >
+          <component :is="menu.icon"></component>
+        </el-icon>
+        <span>{{ menu.title }}</span>
+      </div>
     </template>
     <MenuItem v-for="m in menu.children" :key="m.path" :menu="m"></MenuItem>
   </el-sub-menu>
@@ -31,6 +34,8 @@ defineProps({
 </template>
 
 <style lang="scss">
+.menu-content {
+}
 .el-menu-item,
 .el-sub-menu__title {
   font-size: 18px;
@@ -40,12 +45,23 @@ defineProps({
   font-weight: 500;
   color: #3f465f;
   border-radius: 12px 12px 12px 12px;
+
   &:hover {
     background-color: #6072ff;
     color: #fff;
   }
   &.is-active {
     background-color: #6072ff;
+  }
+}
+.el-menu-item {
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  .el-icon {
+    background-size: 100%, 100% !important;
+    // font-size: 20px;
+    // margin-right: 10px;
   }
 }
 .el-menu {

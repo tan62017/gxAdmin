@@ -9,7 +9,7 @@ const router = useRouter();
 const route = useRoute();
 const routes = router.getRoutes();
 
-const isCollapse = ref(false);
+const isCollapse = ref(true);
 function getMenuFromRoutes(routes, level = 0) {
   return routes
     .filter((menu) => menu.meta.isMenu && (menu.meta.level || 0) === level)
@@ -78,8 +78,17 @@ const defaultActive = computed(() => route.path);
 </script>
 
 <template>
-  <el-scrollbar class="h100% p16px menu-main box">
-    <div class="menu-title"></div>
+  <el-scrollbar class="h100% p16px menu-main box" :class="{ 'menu-main-coll': isCollapse }">
+    <div class="coll-icon-box">
+      <div
+        class="coll-icon"
+        :style="{ '--roteDeg': !isCollapse ? '0deg' : '180deg' }"
+        @click="isCollapse = !isCollapse"
+      ></div>
+    </div>
+    <div class="munu-title-box">
+      <div class="menu-title" :class="{ 'menu-title-coll': isCollapse }"></div>
+    </div>
     <el-menu
       :default-openeds="defaultOpeneds"
       :default-active="defaultActive"
@@ -99,11 +108,18 @@ const defaultActive = computed(() => route.path);
 .box {
   box-shadow: 0px 1px 5px #d0d0d0;
 }
+.munu-title-box {
+  width: 100%;
+  height: 66px;
+  // margin: 10px 0;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
 .menu-title {
   width: 100%;
-  // height: 93px;
-  margin: 10px 0;
-  margin-bottom: 20px;
+  height: 66px;
+
   // height: 27px;
   font-size: 24px;
   font-family: PangMenZhengDao-Regular, PangMenZhengDao;
@@ -111,8 +127,15 @@ const defaultActive = computed(() => route.path);
   color: #333333;
   line-height: 28px;
   letter-spacing: 1px;
-  padding: 30px 12px;
+  // padding: 30px 12px;
   background: url(@/assets/images/logo.png) no-repeat;
+  background-size: 100% 100%;
+}
+.menu-title-coll {
+  width: 40px;
+  height: 40px;
+  margin: auto;
+  background: url(@/assets/images/logo1.png) no-repeat;
   background-size: 100% 100%;
 }
 .menu-main {
@@ -121,6 +144,30 @@ const defaultActive = computed(() => route.path);
   background: rgb(220, 233, 250);
   // overflow: overlay;
   width: var(--menu-width);
+  transition: all 0.3s ease;
+  .coll-icon-box {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    .coll-icon {
+      width: 20px;
+      height: 20px;
+      background: url(@/assets/images/coll-icon.png) no-repeat;
+      background-size: 100% 100%;
+
+      cursor: pointer;
+      transform: rotate(var(--roteDeg));
+      transition: transform 0.3s ease;
+    }
+  }
+}
+.menu-main-coll {
+  width: 95px;
+  .el-menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 .menu {
   border-right: none;
