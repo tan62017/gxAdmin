@@ -1,13 +1,15 @@
 <template>
-  <div class="advanced-table">
+  <div class="advanced-table" v-resize="resizeFun">
     <!-- 表格区域 -->
     <el-table
+      ref="tableRef"
       :data="data"
       v-loading="loading"
       @selection-change="handleSelectionChange"
       style="width: 100%"
       stripe
       :height="height"
+      :key="tableKey"
     >
       <!-- 选择列 -->
       <el-table-column v-if="showSelection" type="selection" width="35" />
@@ -59,6 +61,7 @@
 // import NoData from "./no-data";
 import { defineProps, useSlots, watch, nextTick, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { debounce } from 'lodash-es';
 
 const props = defineProps({
   data: {
@@ -101,14 +104,24 @@ const emits = defineEmits(['selection-change', 'page-change']);
 
 const pages = defineModel('pages');
 
+const tableRef = ref(null);
+
 const loading = ref(false);
 const tableData = ref([]);
 const selectedRows = ref([]);
 
 const height = ref(0);
 
+const tableKey = ref(0);
+
 // 处理列配置，添加插槽支持
 const processedColumns = ref([]);
+//防抖处理
+const resizeFun = debounce(() => {
+  // tableRef.value?.doLayout();
+  // tableKey.value = tableKey.value + 1;
+  console.log('Table layout updated', tableRef.value?.doLayout);
+}, 100);
 
 // 加载数据
 const loadData = async (params = {}) => {
@@ -167,6 +180,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  overflow-x: hidden;
   padding: 20px;
   background: #fff;
   border-radius: 4px;
@@ -176,7 +190,20 @@ onMounted(() => {
     th.el-table__cell {
       background-color: #e6eff8;
     }
-
+    .el-table__inner-wrapper,
+    .el-table__header,
+    colgroup,
+    table,
+    thead,
+    tbody,
+    thead tr,
+    tbody tr,
+    .el-scrollbar,
+    .el-scrollbar__wrap,
+    .el-scrollbar__view,
+    .el-table__body {
+      width: 100% !important;
+    }
     // .el-table__inner-wrapper,
     // .el-table__header,
     // .el-table__body-wrapper,

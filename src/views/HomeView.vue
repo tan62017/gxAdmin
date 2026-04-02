@@ -8,7 +8,7 @@ const userStore = useUserStore();
 <template>
   <div class="app flex p20px">
     <Menu v-if="$route.meta.showMenu"></Menu>
-    <div class="main flex-col flex-1 flex h100% ml20px">
+    <div class="main flex-col flex-1 flex h100% ml20px overflow-hidden">
       <Navigation v-if="$route.meta.navigation"></Navigation>
       <RouterView class="flex-1" />
     </div>
