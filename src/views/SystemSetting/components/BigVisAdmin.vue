@@ -31,6 +31,8 @@
               {{ item.label }}
             </div>
             <div class="item-content-msg-content">简介：{{ item.content || '--' }}</div>
+            <div class="item-content-msg-content">分类：{{ item.content || '--' }}</div>
+            <div class="item-content-msg-content">机构：{{ item.content || '--' }}</div>
           </div>
           <div class="item-content-btns">
             <el-button plain type="primary" @click="editBigVis(item)">编辑</el-button>
@@ -95,7 +97,7 @@ const dialogTitle = ref('添加大屏');
 const targetElement = ref('');
 const tipRef = ref(null);
 
-const formData = reactive({
+const formData = ref({
   name: '',
   location: '',
   status: true,

@@ -1,31 +1,31 @@
 <script setup>
-import { md5 } from 'js-md5'
-import { addAuthUser } from '@/api'
+import { md5 } from 'js-md5';
+import { addAuthUser } from '@/api';
 
 const props = defineProps({
   user: {
     type: Object,
-    default: () => ({})
-  }
-})
+    default: () => ({}),
+  },
+});
 
-const emits = defineEmits(['confirm'])
+const emits = defineEmits(['confirm']);
 
 const form = ref({
   userName: '', // 账号  唯一
   displayName: '', // 昵称
   password: '',
-  surePassword: ''
-})
-const loading = ref(false)
-const formRef = ref(null)
+  surePassword: '',
+});
+const loading = ref(false);
+const formRef = ref(null);
 
 const show = defineModel('modelValue', {
   type: Boolean,
-  required: true
-})
+  required: true,
+});
 
-const isEdit = computed(() => !!props.user.id)
+const isEdit = computed(() => !!props.user.id);
 
 const rules = {
   userName: [{ required: true, message: '请输入账号', trigger: 'blur' }],
@@ -36,66 +36,66 @@ const rules = {
     {
       validator: (rule, value, callback) => {
         if (value !== form.value.password) {
-          callback(new Error('两次输入密码不一致'))
+          callback(new Error('两次输入密码不一致'));
         } else {
-          callback()
+          callback();
         }
       },
-      trigger: 'blur'
-    }
-  ]
-}
+      trigger: 'blur',
+    },
+  ],
+};
 
 // 获取加密后form
 function getEncodeForm() {
   if (isEdit.value) {
     return {
       displayName: form.value.displayName,
-      id: props.user.id
-    }
+      id: props.user.id,
+    };
   }
   return {
     displayName: form.value.displayName,
     userName: form.value.userName,
-    password: md5(form.value.password)
-  }
+    password: md5(form.value.password),
+  };
 }
 
 async function confirm() {
-  loading.value = true
-  await addUserUserPermission()
-  loading.value = false
-  show.value = false
-  emits('confirm')
+  loading.value = true;
+  await addUserUserPermission();
+  loading.value = false;
+  show.value = false;
+  emits('confirm');
 }
 
 async function addUserUserPermission() {
-  const [err] = await to(addAuthUser(getEncodeForm()))
+  const [err] = await to(addAuthUser(getEncodeForm()));
   if (!err) {
-    ElMessage.success('添加成功')
-    show.value = false
+    ElMessage.success('添加成功');
+    show.value = false;
   } else {
-    ElMessage.error('添加失败')
+    ElMessage.error('添加失败');
   }
 }
 
-watch(show, nv => {
+watch(show, (nv) => {
   if (nv) {
     form.value = {
       userName: props.user.userName || '', // 账号  唯一
       displayName: props.user.displayName || '', // 昵称
       password: props.user.password || '',
-      surePassword: props.user.password || ''
-    }
+      surePassword: props.user.password || '',
+    };
   }
-})
+});
 
 function submit() {
-  formRef.value.validate(valid => {
+  formRef.value.validate((valid) => {
     if (valid) {
-      confirm()
+      confirm();
     }
-  })
+  });
 }
 </script>
 
@@ -108,12 +108,15 @@ function submit() {
             v-model="form.userName"
             :disabled="isEdit"
             placeholder="请输入用户账号"
-            v
             @keydown.enter="submit"
           ></el-input>
         </el-form-item>
         <el-form-item label="姓名：" prop="displayName">
-          <el-input v-model="form.displayName" placeholder="请输入用户姓名" @keydown.enter="submit"></el-input>
+          <el-input
+            v-model="form.displayName"
+            placeholder="请输入用户姓名"
+            @keydown.enter="submit"
+          ></el-input>
         </el-form-item>
         <el-form-item v-if="!isEdit" prop="password" label="密码：">
           <el-input

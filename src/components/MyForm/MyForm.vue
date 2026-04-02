@@ -185,11 +185,11 @@ defineExpose({
             :placeholder="item.placeholder || '请选择'"
           />
           <el-date-picker
-            v-if="item.type === 'month'"
+            v-if="item.type === 'date'"
             style="height: 100%"
             v-model="form[item.key]"
-            :placeholder="item.placeholder || '请选择年月'"
-            :type="item.type"
+            :placeholder="item.placeholder || '请选择时间'"
+            :type="item.dateType"
           />
         </slot>
       </el-form-item>
@@ -199,6 +199,7 @@ defineExpose({
             <el-button
               :type="btn.type"
               :plain="btn.plain"
+              :size="btn.size || ''"
               v-for="btn in btns"
               :key="btn.label"
               @click="btnClick(btn)"
@@ -243,6 +244,10 @@ defineExpose({
         height: 100%;
       }
     }
+  }
+  :deep(.el-form--inline) {
+    display: flex;
+    align-items: center;
   }
 }
 </style>

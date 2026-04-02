@@ -12,10 +12,13 @@ const change = (data) => {
 </script>
 
 <template>
-  <div class="system-setting-contrain p20px flex flex-col">
-    <div class="font-size-24px font-bold mb20px">系统设置</div>
-    <div class="layout w-full">
-      <BigVisAdmin />
+  <!-- <div class="system-setting-contrain p20px flex flex-col">
+   
+  </div> -->
+  <Content>
+    <div class="layout w-full flex flex-col">
+      <Title title="系统设置" class="mb20px"></Title>
+      <BigVisAdmin class="flex-1" />
       <!-- <div
         class="layout-item w200px h200px flex flex-col flex-justify-center flex-items-center"
         v-for="sy in systemLouy"
@@ -26,7 +29,7 @@ const change = (data) => {
         <div class="name">{{ sy.name }}</div>
       </div> -->
     </div>
-  </div>
+  </Content>
 </template>
 
 <style lang="scss" scoped>
@@ -37,17 +40,17 @@ const change = (data) => {
 
   margin-top: 20px;
   border-radius: 12px;
-  background-color: #fff;
-  .layout {
-    width: 100%;
-    // padding: 0 20px;
-    overflow: hidden;
-    overflow-y: auto;
-    .layout-item {
-      cursor: pointer;
-      &:hover {
-        box-shadow: inset 0 0 5px rgba(14, 30, 179, 0.2);
-      }
+  background-color: #ffffff;
+}
+.layout {
+  width: 100%;
+  // padding: 0 20px;
+  overflow: hidden;
+  // overflow-y: auto;
+  .layout-item {
+    cursor: pointer;
+    &:hover {
+      box-shadow: inset 0 0 5px rgba(14, 30, 179, 0.2);
     }
   }
 }

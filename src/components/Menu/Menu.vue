@@ -9,7 +9,7 @@ const router = useRouter();
 const route = useRoute();
 const routes = router.getRoutes();
 
-const isCollapse = ref(true);
+const isCollapse = ref(false);
 function getMenuFromRoutes(routes, level = 0) {
   return routes
     .filter((menu) => menu.meta.isMenu && (menu.meta.level || 0) === level)

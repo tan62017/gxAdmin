@@ -1,6 +1,6 @@
 <template>
   <template v-if="data.length > 0">
-    <div class="p-box">
+    <div class="p-box px-10px">
       <div class="nav-content-right">
         <Item
           v-bind="$attrs"
@@ -37,14 +37,14 @@ defineProps({
 .p-box {
   width: 100%;
   height: 100%;
-  padding: 20px 0;
+  // padding: 20px 0;
   overflow: auto;
 }
 .nav-content-right {
   // flex: 1;
   width: 100%;
   // width: calc(100% - 220px);
-  padding: 0 30px;
+  // padding: 0 30px;
   padding-top: 10px;
   padding-bottom: 30px;
   display: grid;

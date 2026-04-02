@@ -103,12 +103,14 @@ processList(navList.value[0].list);
       @search="search"
     ></Nav>
     <div class="nav-content">
-      <Left
-        :data="navContentData.leftData"
-        @tabChange="tabClick"
-        v-if="navContentData.leftData.length"
-      ></Left>
-      <LinkList :data="navContentData.rightData" @change="changeItem"></LinkList>
+      <Content>
+        <Left
+          :data="navContentData.leftData"
+          @tabChange="tabClick"
+          v-if="navContentData.leftData.length"
+        ></Left>
+        <LinkList :data="navContentData.rightData" @change="changeItem"></LinkList>
+      </Content>
     </div>
   </el-scrollbar>
 </template>
@@ -129,8 +131,7 @@ processList(navList.value[0].list);
   //height: 100%;
   height: calc(100% - 80px);
   // padding: 20px; //
-  margin-top: 20px;
-  background-color: #fff;
+
   overflow: hidden;
 
   border-radius: var(--border-radius-num);
