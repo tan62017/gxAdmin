@@ -39,6 +39,16 @@
           <template #default="scope">
             <slot name="action" :row="scope.row"></slot>
           </template>
+          <template #header>
+            <slot name="header">
+              <div class="active-header">
+                <el-button type="primary" size="" v-show="selectedRows.length" @click="delectAll"
+                  >批量删除</el-button
+                >
+                <span v-show="!selectedRows.length">操作</span>
+              </div>
+            </slot>
+          </template>
         </el-table-column>
       </slot>
     </el-table>
@@ -100,7 +110,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['selection-change', 'page-change']);
+const emits = defineEmits(['selection-change', 'page-change', 'delect-all']);
 
 const pages = defineModel('pages');
 
@@ -127,7 +137,9 @@ const resizeFun = debounce(() => {
 const loadData = async (params = {}) => {
   emits('page-change');
 };
-
+const delectAll = () => {
+  emits('delect-all', selectedRows.value);
+};
 // 处理分页变化
 const handleCurrentChange = (page) => {
   pages.value.currentPage = page;
@@ -187,6 +199,9 @@ onMounted(() => {
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   :deep(.el-table) {
     width: 100%;
+    thead {
+      height: 50px;
+    }
     th.el-table__cell {
       background-color: #e6eff8;
     }
@@ -247,6 +262,11 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
+}
+.active-header {
+  :deep(.el-button) {
+    background-color: #288cde;
+  }
 }
 // div {
 //   color: #f0f2f227;
