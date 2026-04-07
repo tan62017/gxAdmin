@@ -1,4 +1,6 @@
 <script setup>
+import { KeepAlive } from 'vue';
+
 defineProps({
   title: {
     type: String,
@@ -15,6 +17,7 @@ function getMenuFromRoutes(routes, level = 0) {
     .filter((menu) => menu.meta.isMenu && (menu.meta.level || 0) === level)
     .map((route) => {
       const menu = {
+        keepAlive: route.meta.keepAlive,
         title: route.meta.title,
         path: route.path,
         icon: route.meta.icon,
@@ -55,6 +58,7 @@ const menuList = [
   //   ]
   // }
 ];
+console.log(menuList, routes, 'menuListmenuList');
 
 function handleSelect(path) {
   console.log(route, defaultActive);

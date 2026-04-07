@@ -10,7 +10,14 @@ const userStore = useUserStore();
     <Menu v-if="$route.meta.showMenu"></Menu>
     <div class="main flex-col flex-1 flex h100% ml20px overflow-hidden">
       <Navigation v-if="$route.meta.navigation"></Navigation>
-      <RouterView class="flex-1" />
+      <router-view v-slot="{ Component, route }" class="flex-1">
+        <!-- 如果路由被标记为需要缓存，则用 keep-alive 包裹 -->
+        <keep-alive>
+          <component :is="Component" v-if="route.meta.keepAlive" :key="route.name" />
+        </keep-alive>
+        <!-- 如果不需要缓存，则直接渲染 -->
+        <component :is="Component" v-if="!route.meta.keepAlive" :key="route.name" />
+      </router-view>
     </div>
   </div>
 </template>

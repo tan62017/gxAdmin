@@ -174,6 +174,14 @@ const init = () => {
   });
 };
 
+const clearSelection = () => {
+  tableRef.value?.clearSelection();
+};
+
+const getSelectionRows = () => {
+  return tableRef.value?.getSelectionRows();
+};
+
 onMounted(() => {
   init();
   const tableDom = document.querySelector('.advanced-table');
@@ -184,6 +192,12 @@ onMounted(() => {
 
     height.value = rect.height - 80 || 0;
   }
+});
+
+defineExpose({
+  domRef: tableRef.value,
+  clearSelection,
+  getSelectionRows,
 });
 </script>
 

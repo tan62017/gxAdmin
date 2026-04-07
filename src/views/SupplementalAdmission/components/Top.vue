@@ -2,7 +2,7 @@
   <div class="w-full flex items-center justify-between">
     <div class="left flex items-center">
       <Title title="补录系统"></Title>
-      <div class="status mx-20px flex items-center">
+      <div class="status mx-20px flex items-center" @click="goDataStatus">
         数据状态
         <div class="cirl w8px h8px ml-4px border-rd-50 bg-[#adf664]"></div>
       </div>
@@ -24,6 +24,8 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
+
+const router = useRouter();
 
 const formData = ref({
   name: '',
@@ -60,6 +62,12 @@ const formBtns = [
     fun: async () => {},
   },
 ];
+
+const goDataStatus = () => {
+  router.push({
+    path: '/supplemental-admission/data-status',
+  });
+};
 </script>
 
 <style lang="scss" scoped>

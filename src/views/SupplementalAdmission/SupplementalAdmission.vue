@@ -162,6 +162,11 @@ const pages = ref({
   currentPage: 1,
   pageSize: 10,
 });
+const delectDialog = ref(false);
+const delectAll = (arr) => {
+  console.log(arr);
+  delectDialog.value = true;
+};
 </script>
 
 <template>
@@ -174,8 +179,10 @@ const pages = ref({
       v-model:pages="pages"
       :columns="colunms"
       :data="tableData"
+      @delectAll="delectAll"
     >
     </BaseTable>
+    <DialogContent v-model="delectDialog" title="批量删除" width="40%"> </DialogContent>
   </Content>
 </template>
 
