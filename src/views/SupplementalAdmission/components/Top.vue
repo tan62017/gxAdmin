@@ -65,7 +65,7 @@ const formBtns = [
 
 const goDataStatus = () => {
   router.push({
-    path: '/supplemental-admission/data-status',
+    path: '/supplemental-admission-data-status',
   });
 };
 </script>

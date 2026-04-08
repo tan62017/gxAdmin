@@ -73,7 +73,7 @@ const defaultOpeneds = computed(() => {
   return menu ? [menu.path] : [];
 });
 
-const defaultActive = computed(() => route.path);
+const defaultActive = computed(() => route.meta.active);
 // const defaultActive = computed(() => {
 //   console.log(route);
 
