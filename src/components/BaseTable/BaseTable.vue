@@ -54,16 +54,30 @@
     </el-table>
 
     <!-- 分页区域 -->
-    <div class="table-footer" v-if="showPagination">
+    <div class="table-footer" v-show="showPagination">
       <el-pagination
         v-model:current-page="pages.currentPage"
         v-model:page-size="pages.pageSize"
-        :page-sizes="[10, 20, 50, 100]"
+        :page-sizes="[5, 10, 20, 50, 100]"
         :total="pages.total"
-        layout="total, sizes, prev, pager, next, jumper"
+        layout="total, sizes, prev, pager, next"
         @current-change="handleCurrentChange"
         @size-change="handleSizeChange"
-      />
+      >
+        <template #jumper>
+          <div class="slot-jumoer flex items-center">
+            <span class="mr-2">跳转到</span>
+            <el-input
+              v-model="pages.currentPage"
+              style="width: 80px"
+              size="small"
+              @change="handleCurrentChange(pages.currentPage)"
+            ></el-input>
+            <!-- <ElPaginationJumper :disabled="disabled" aria-label="跳转页码" /> -->
+            <span class="ml-2">页</span>
+          </div>
+        </template>
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -128,6 +142,7 @@ const tableKey = ref(0);
 const processedColumns = ref([]);
 //防抖处理
 const resizeFun = debounce(() => {
+  updateHeight();
   // tableRef.value?.doLayout();
   // tableKey.value = tableKey.value + 1;
   console.log('Table layout updated', tableRef.value?.doLayout);
@@ -148,7 +163,7 @@ const handleCurrentChange = (page) => {
 
 // 处理每页数量变化
 const handleSizeChange = (size) => {
-  pageSize.value.pageSize = size;
+  pages.value.pageSize = size;
   pages.value.currentPage = 1;
   loadData();
 };
@@ -182,16 +197,21 @@ const getSelectionRows = () => {
   return tableRef.value?.getSelectionRows();
 };
 
+function updateHeight() {
+  nextTick(() => {
+    const tableDom = document.querySelector('.advanced-table');
+    const tablePage = document.querySelector('.table-footer');
+    if (tableDom) {
+      const rect = tableDom.getBoundingClientRect();
+      const pageRect = tablePage.getBoundingClientRect();
+
+      height.value = rect.height - 80 || 0;
+    }
+  });
+}
+
 onMounted(() => {
   init();
-  const tableDom = document.querySelector('.advanced-table');
-  const tablePage = document.querySelector('.table-footer');
-  if (tableDom) {
-    const rect = tableDom.getBoundingClientRect();
-    const pageRect = tablePage.getBoundingClientRect();
-
-    height.value = rect.height - 80 || 0;
-  }
 });
 
 defineExpose({
@@ -256,9 +276,15 @@ defineExpose({
 .table-footer {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-top: 20px;
+  :deep(.el-pagination) {
+    justify-content: flex-end;
+    button .el-icon {
+      height: auto;
+    }
+  }
 }
 .search-form {
   margin-bottom: 20px;
@@ -269,9 +295,7 @@ defineExpose({
 .table-actions {
   margin-bottom: 15px;
 }
-.el-pagination {
-  justify-content: flex-end;
-}
+
 .flex-container {
   display: flex;
   justify-content: space-between;

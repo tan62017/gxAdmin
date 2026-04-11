@@ -158,7 +158,7 @@ const tableData = [
   },
 ];
 const pages = ref({
-  total: 0,
+  total: 10,
   currentPage: 1,
   pageSize: 10,
 });
