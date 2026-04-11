@@ -3,6 +3,7 @@
     <div class="label">{{ label }}</div>
     <el-input
       v-model="input"
+      :aria-label="label"
       style="width: 100%"
       size="large"
       placeholder="请输入"
@@ -14,31 +15,31 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive } from 'vue';
 
 const props = defineProps({
   label: {
     type: String,
-    default: "",
+    default: '',
   },
   modelValue: {
     type: String,
-    default: "",
+    default: '',
   },
 });
 
-const emits = defineEmits("updata:modelValue");
+const emits = defineEmits('updata:modelValue');
 
-const input = ref("");
+const input = ref('');
 
 const inputVal = () => {
-  emits("updata:modelValue", input.value);
+  emits('updata:modelValue', input.value);
 };
 
 watch(
   () => props.modelValue,
   (val) => (input.value = val),
-  { immediate: true }
+  { immediate: true },
 );
 </script>
 

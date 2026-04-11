@@ -7,7 +7,7 @@
     :top="top"
   >
     <slot></slot>
-    <template #title>
+    <template #header>
       <div class="dialog-title font-size-24px">{{ title }}</div>
     </template>
     <template #footer>

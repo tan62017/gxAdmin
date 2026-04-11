@@ -2,23 +2,25 @@
 const props = defineProps({
   data: {
     type: Array,
-    default: () => [],
+    default: () => {
+      return [];
+    },
   },
   active: {
     type: String,
-    default: "全部",
+    default: '全部',
   },
 });
 
 const isClear = ref(false);
-const emits = defineEmits(["change", "update:active"]);
+const emits = defineEmits(['change', 'update:active']);
 // const activeNav = ref("全部");
 
 const navClick = (data) => {
   isClear.value = true;
   // activeNav.value = data.label;
-  emits("update:active", data.label);
-  emits("change", data);
+  emits('update:active', data.label);
+  emits('change', data);
 };
 </script>
 

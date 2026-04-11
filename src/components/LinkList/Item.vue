@@ -18,8 +18,8 @@
 <script setup>
 defineProps({
   data: {
-    type: Array,
-    default: () => [],
+    type: Object,
+    default: () => ({}),
   },
 });
 

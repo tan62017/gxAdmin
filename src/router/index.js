@@ -113,7 +113,7 @@ export const defaultRoutes = [
         meta: {
           active: '/supplemental-admission',
           showMenu: true,
-          title: '补录系统',
+          title: '补录列表',
           isMenu: false,
           elIcon: 'el-icon-project',
           elIconAc: 'el-icon-projectAc',

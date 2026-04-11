@@ -18,7 +18,7 @@ const change = (data) => {
   <Content>
     <div class="layout w-full flex flex-col">
       <Title title="系统设置" class="mb20px"></Title>
-      <BigVisAdmin class="flex-1" />
+      <BigVisAdmin class="big-vis-box" />
       <!-- <div
         class="layout-item w200px h200px flex flex-col flex-justify-center flex-items-center"
         v-for="sy in systemLouy"
@@ -47,6 +47,9 @@ const change = (data) => {
   // padding: 0 20px;
   overflow: hidden;
   // overflow-y: auto;
+  .big-vis-box {
+    flex: 1;
+  }
   .layout-item {
     cursor: pointer;
     &:hover {

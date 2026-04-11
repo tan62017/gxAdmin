@@ -2,11 +2,11 @@
   <div class="w-full flex items-center justify-between">
     <div class="left flex items-center">
       <Title title="补录系统"></Title>
-      <div class="status mx-20px flex items-center" @click="goDataStatus">
+      <div class="status mx-20px flex items-center cursor-pointer" @click="goDataStatus">
         数据状态
         <div class="cirl w8px h8px ml-4px border-rd-50 bg-[#adf664]"></div>
       </div>
-      <div class="create">创建补录</div>
+      <div class="create cursor-pointer">创建补录</div>
     </div>
     <div class="right flex items-center justify-end">
       <div class="form-title mr16px">数据检索</div>

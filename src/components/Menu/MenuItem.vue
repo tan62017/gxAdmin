@@ -1,4 +1,12 @@
 <script setup>
+import { defineOptions, useAttrs } from 'vue';
+
+defineOptions({
+  inheritAttrs: false,
+});
+
+const attrs = useAttrs();
+
 defineProps({
   menu: {
     type: Object,
@@ -11,7 +19,7 @@ defineProps({
 </script>
 
 <template>
-  <el-sub-menu v-if="menu.children && menu.children.length" :index="menu.path">
+  <el-sub-menu v-if="menu.children && menu.children.length" v-bind="attrs" :index="menu.path">
     <template #title>
       <div class="menu-content">
         <el-icon
@@ -25,7 +33,7 @@ defineProps({
     </template>
     <MenuItem v-for="m in menu.children" :key="m.path" :menu="m"></MenuItem>
   </el-sub-menu>
-  <el-menu-item v-else :index="menu.path">
+  <el-menu-item v-else v-bind="attrs" :index="menu.path">
     <el-icon :class="defaultActive === menu.path ? menu.elIconAc : menu.elIcon">
       <component :is="menu.icon"></component>
     </el-icon>

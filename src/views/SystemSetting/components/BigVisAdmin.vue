@@ -70,17 +70,17 @@
         </div>
       </div>
     </div>
+    <el-drawer v-model="drawer" direction="rtl" :title="dialogTitle" resizable>
+      <MyForm
+        :rules="rules"
+        :btns="formBtns"
+        v-model="formData"
+        label-width="130px"
+        :inline="false"
+        :options="bigVisOptions"
+      ></MyForm>
+    </el-drawer>
   </div>
-  <el-drawer v-model="drawer" direction="rtl" :title="dialogTitle" resizable>
-    <MyForm
-      :rules="rules"
-      :btns="formBtns"
-      v-model="formData"
-      label-width="130px"
-      :inline="false"
-      :options="bigVisOptions"
-    ></MyForm>
-  </el-drawer>
 </template>
 
 <script setup>
