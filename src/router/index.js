@@ -187,7 +187,8 @@ export const defaultRoutes = [
   {
     path: '/user',
     name: 'user',
-    component: () => import('@/views/User/User.vue'),
+    component: NavRouter,
+    redirect: '/user/index',
     meta: {
       active: '/user',
       showMenu: true,
@@ -196,8 +197,25 @@ export const defaultRoutes = [
       elIcon: 'el-icon-important',
       elIconAc: 'el-icon-importantAc',
       navigation: true,
-      isOpen: false,
+      isOpen: true,
     },
+    children: [
+      {
+        path: '/user/index',
+        name: 'user-index',
+        component: () => import('@/views/User/User.vue'),
+        meta: {
+          active: '/user',
+          showMenu: true,
+          title: '用户管理',
+          isMenu: false,
+          elIcon: 'el-icon-important',
+          elIconAc: 'el-icon-importantAc',
+          navigation: true,
+          isOpen: true,
+        },
+      },
+    ],
   },
   {
     path: '/system-setting',
@@ -246,19 +264,37 @@ export const defaultRoutes = [
     },
   },
   {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/views/Login/Login.vue'),
-  },
-  {
-    path: '/working',
-    name: 'working',
-    component: () => import('@/views/WorkList/index.vue'),
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    name: '404',
-    component: NoPwoer,
+    path: '/system-log',
+    name: 'system-log',
+    component: NavRouter,
+    redirect: '/system-log/index',
+    meta: {
+      active: '/system-log',
+      showMenu: true,
+      title: '系统日志',
+      isMenu: true,
+      elIcon: 'el-icon-project',
+      elIconAc: 'el-icon-projectAc',
+      navigation: true,
+      isOpen: true,
+    },
+    children: [
+      {
+        path: '/system-log/index',
+        name: 'system-log-index',
+        component: () => import('@/views/SystemLog/SystemLog.vue'),
+        meta: {
+          active: '/system-log',
+          showMenu: true,
+          title: '系统日志',
+          isMenu: false,
+          elIcon: 'el-icon-project',
+          elIconAc: 'el-icon-projectAc',
+          navigation: true,
+          isOpen: true,
+        },
+      },
+    ],
   },
 ];
 
@@ -274,6 +310,21 @@ const router = createRouter({
         root: true,
       },
       children: [...defaultRoutes],
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/Login/Login.vue'),
+    },
+    {
+      path: '/working',
+      name: 'working',
+      component: () => import('@/views/WorkList/index.vue'),
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: '404',
+      component: NoPwoer,
     },
   ],
 });

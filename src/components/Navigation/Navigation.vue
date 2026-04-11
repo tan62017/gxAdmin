@@ -16,7 +16,6 @@ async function logout() {
 const breadcrumbs = computed(() => {
   const matched = route.matched;
   const crumbs = [];
-  console.log(matched, 'matched');
 
   // 添加主页
   crumbs.push({

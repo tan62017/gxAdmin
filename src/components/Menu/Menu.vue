@@ -1,5 +1,6 @@
 <script setup>
 import { KeepAlive } from 'vue';
+import { defaultRoutes } from '@/router';
 
 defineProps({
   title: {
@@ -33,35 +34,9 @@ function getMenuFromRoutes(routes, level = 0) {
     });
 }
 // debugger
-const menuList = [
-  ...getMenuFromRoutes(routes),
-  // {
-  //   title: '权限管理',
-  //   path: '/auth',
-  //   icon: Lock,
-  //   children: [
-  //     {
-  //       title: '用户管理',
-  //       path: '/auth/user',
-  //       icon: User
-  //     },
-  //     {
-  //       title: '角色管理',
-  //       path: '/auth/role',
-  //       icon: UserFilled
-  //     },
-  //     {
-  //       title: '菜单管理',
-  //       path: '/auth/menu',
-  //       icon: Menu
-  //     }
-  //   ]
-  // }
-];
-console.log(menuList, routes, 'menuListmenuList');
+const menuList = [...getMenuFromRoutes(defaultRoutes)];
 
 function handleSelect(path) {
-  console.log(route, defaultActive);
   const item = menuList.find((i) => i.path === path);
   if (!item.isOpen) ElMessage.error('暂未开放');
   router.push(path);

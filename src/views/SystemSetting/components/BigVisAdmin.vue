@@ -36,33 +36,9 @@
           </div>
           <div class="item-content-btns">
             <el-button plain type="primary" @click="editBigVis(item)">编辑</el-button>
-            <el-tooltip
-              ref="tipRef"
-              :append-to="targetElement"
-              effect="light"
-              trigger="click"
-              placement="top"
-            >
+            <MyTip targetElement=".big-vis-list" @delect="delectOne(item)">
               <el-button plain type="warning">删除</el-button>
-              <template #content>
-                <div class="tip-content px-8px py-2px">
-                  <div class="tip-content-msg flex items-center font-size-12px">
-                    <el-icon style="color: #e6a23c" class="delect-icon mr-4px"
-                      ><WarningFilled /></el-icon
-                    >请确认删除该大屏
-                  </div>
-                  <div class="tip-content-btns mt-10px flex justify-end">
-                    <el-button size="small" plain type="primary" @click="delectOne(item)"
-                      ><span class="font-size-12px">确认</span></el-button
-                    >
-                    <el-button size="small" type="" @click="delectOneCancel"
-                      ><span class="font-size-12px">取消</span></el-button
-                    >
-                  </div>
-                </div>
-              </template>
-            </el-tooltip>
-
+            </MyTip>
             <el-button v-show="isCheckedAll">
               <el-checkbox v-model="item.checked" :label="item.checked ? '已选' : '选择'" />
             </el-button>

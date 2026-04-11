@@ -1,38 +1,5 @@
 <script setup>
 import Top from './components/Top.vue';
-import Permissions from './components/Permissions.vue';
-import UserEdit from './components/UserEdit.vue';
-import DelectAll from './components/DelectAll.vue';
-
-const dialogTitle = ref('批量删除');
-
-const dialogType = ref('delectAll');
-
-const dialogMap = {
-  edit: {
-    title: '编辑角色',
-    width: '40%',
-    top: '30vh',
-    component: UserEdit,
-  },
-  permissions: {
-    title: '角色权限',
-    width: '88%',
-    top: '30vh',
-    component: Permissions,
-  },
-  delectAll: {
-    title: '批量删除',
-    width: '40%',
-    top: '40vh',
-    component: DelectAll,
-  },
-};
-
-const dialogOptions = computed(() => {
-  return dialogMap[dialogType.value];
-});
-const dialogProps = ref(null);
 const colunms = [
   {
     id: 1,
@@ -197,27 +164,14 @@ const pages = ref({
 });
 const delectDialog = ref(false);
 const delectAll = (arr) => {
-  delectDialog.value = true;
-  dialogType.value = 'delectAll';
-};
-const delectOne = (row) => {};
-const actionClick = (type, row) => {
-  dialogType.value = type;
-  dialogProps.value = row || null;
-  if (type === 'edit') {
-    if (row) {
-      dialogMap.edit.title = '编辑角色';
-    } else {
-      dialogMap.edit.title = '创建角色';
-    }
-  }
+  console.log(arr);
   delectDialog.value = true;
 };
 </script>
 
 <template>
   <Content>
-    <Top @create="actionClick('edit')"></Top>
+    <Top></Top>
     <BaseTable
       class="table-list-box mt30px w-full overflow-hidden"
       showSelection
@@ -227,22 +181,8 @@ const actionClick = (type, row) => {
       :data="tableData"
       @delectAll="delectAll"
     >
-      <template #action="{ row }">
-        <div class="flex items-center">
-          <div class="edit cursor-pointer" @click="actionClick('permissions', row)">权限</div>
-          <div class="edit mx-10px cursor-pointer" @click="actionClick('edit', row)">编辑</div>
-          <MyTip targetElement=".table-list-box" @delect="delectOne(row)"> </MyTip>
-        </div>
-      </template>
     </BaseTable>
-    <DialogContent
-      v-model="delectDialog"
-      :title="dialogOptions.title"
-      :width="dialogOptions.width"
-      :top="dialogOptions.top"
-    >
-      <component :is="dialogOptions.component" :data="dialogProps"></component>
-    </DialogContent>
+    <DialogContent v-model="delectDialog" title="批量删除" width="40%"> </DialogContent>
   </Content>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <div>数据状态</div>
+  <Content> 数据状态 </Content>
 </template>
 
 <script setup>

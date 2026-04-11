@@ -1,13 +1,13 @@
 <script setup>
-import { Lock, User } from "@element-plus/icons-vue";
-import { md5 } from "js-md5";
-import { useUserStore } from "@/stores/user";
+import { Lock, User } from '@element-plus/icons-vue';
+import { md5 } from 'js-md5';
+import { useUserStore } from '@/stores/user';
 const router = useRouter();
 const route = useRoute();
 const userStore = useUserStore();
 const form = ref({
-  username: "",
-  password: "",
+  username: '',
+  password: '',
 });
 
 function getMd5Form() {
@@ -19,22 +19,22 @@ function getMd5Form() {
 
 async function login() {
   if (!form.value.username) {
-    return ElMessage.error("请输入用户名");
+    return ElMessage.error('请输入用户名');
   }
   if (!form.value.password) {
-    return ElMessage.error("请输入密码");
+    return ElMessage.error('请输入密码');
   }
-  const { redirect = "/" } = route.query;
+  const { redirect = '/' } = route.query;
   const success = await userStore.customLogin(getMd5Form());
   if (success) {
     router.push(redirect);
-    ElMessage.success("登录成功");
+    ElMessage.success('登录成功');
   }
 }
 </script>
 
 <template>
-  <div class="login flex ic jc h100%">
+  <div class="login flex ic jc w-full h100%">
     <el-form class="form">
       <div class="logo"></div>
       <div class="admin-name">大屏货架系统</div>
@@ -56,9 +56,7 @@ async function login() {
         />
       </el-form-item>
       <div class="flex ic jc mt20px footer">
-        <el-button class="login-btn" type="primary" @click="login"
-          >登录</el-button
-        >
+        <el-button class="login-btn" type="primary" @click="login">登录</el-button>
         <div class="edit">忘记密码？</div>
       </div>
     </el-form>
@@ -70,7 +68,7 @@ async function login() {
   padding: 0;
 }
 .login {
-  background: url("./images/login.png") no-repeat 0 0 / 100% 100%;
+  background: url('./images/login.png') no-repeat 0 0 / 100% 100%;
 }
 .form {
   display: flex;
@@ -79,7 +77,7 @@ async function login() {
   width: 620px;
   height: 439px;
   transform: scale(1.5);
-  background: url("./images/form1.png") no-repeat 0 0 / 100% 100%;
+  background: url('./images/form1.png') no-repeat 0 0 / 100% 100%;
   box-sizing: border-box;
   padding: 20px;
   padding: 40px 70px 0;
@@ -87,7 +85,7 @@ async function login() {
     width: 355px;
     height: 93px;
     margin-bottom: 10px;
-    background: url("@/assets/images/logo.png") no-repeat 0 0 / 100% 100%;
+    background: url('@/assets/images/logo.png') no-repeat 0 0 / 100% 100%;
   }
   .admin-name {
     margin-bottom: 40px;

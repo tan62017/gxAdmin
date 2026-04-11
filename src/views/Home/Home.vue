@@ -39,7 +39,6 @@ navContentData.rightData = navList.value[0].list || [];
 const changeNav = (data) => {
   navContentData.label = data.label;
   if (['全部', '零售条线', '综合管理'].includes(data.label)) {
-    console.log(data);
     navContentData.leftData = [];
     navContentData.rightData = data.list || [];
   } else {
@@ -94,7 +93,7 @@ processList(navList.value[0].list);
 </script>
 
 <template>
-  <el-scrollbar class="pt20px flex flex-wrap h100%">
+  <div class="pt20px flex flex-col flex-wrap h100% overflow-hidden">
     <Nav
       class="nav-out"
       :data="navList"
@@ -102,17 +101,19 @@ processList(navList.value[0].list);
       @change="changeNav"
       @search="search"
     ></Nav>
-    <div class="nav-content">
+    <div class="nav-content flex-1 mt10px overflow-hidden">
+      <Left
+        :data="navContentData.leftData"
+        @tabChange="tabClick"
+        v-if="navContentData.leftData.length"
+      ></Left>
       <Content>
-        <Left
-          :data="navContentData.leftData"
-          @tabChange="tabClick"
-          v-if="navContentData.leftData.length"
-        ></Left>
-        <LinkList :data="navContentData.rightData" @change="changeItem"></LinkList>
+        <div class="flex h100%">
+          <LinkList :data="navContentData.rightData" @change="changeItem"></LinkList>
+        </div>
       </Content>
     </div>
-  </el-scrollbar>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -129,28 +130,30 @@ processList(navList.value[0].list);
   display: flex;
   // height: 880px;
   //height: 100%;
-  height: calc(100% - 80px);
+  // height: calc(100% - 80px);
   // padding: 20px; //
 
   overflow: hidden;
 
   border-radius: var(--border-radius-num);
-
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+  :deep(.content-contrain) {
+    margin-top: 0;
   }
+  // ::-webkit-scrollbar {
+  //   width: 10px;
+  //   height: 10px;
+  // }
 
-  ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    background: #21c2df59;
-  }
+  // ::-webkit-scrollbar-thumb {
+  //   border-radius: 10px;
+  //   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  //   background: #21c2df59;
+  // }
 
-  ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    background: #adadad00;
-  }
+  // ::-webkit-scrollbar-track {
+  //   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+  //   border-radius: 10px;
+  //   background: #adadad00;
+  // }
 }
 </style>

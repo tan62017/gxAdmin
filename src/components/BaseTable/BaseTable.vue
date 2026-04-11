@@ -8,6 +8,7 @@
       @selection-change="handleSelectionChange"
       style="width: 100%"
       stripe
+      :scrollbar-always-on="scrollbarAlwaysOn"
       :height="height"
       :key="tableKey"
     >
@@ -21,6 +22,8 @@
           :label="column.label"
           :width="column.width"
           :sortable="column.sortable"
+          :align="column.align || 'left'"
+          :header-align="column.headerAlign || 'left'"
         >
           <template #default="scope">
             <template v-if="column.slot">
@@ -35,7 +38,7 @@
 
       <!-- 操作列插槽 -->
       <slot name="actions-column">
-        <el-table-column label="操作" width="150" fixed="right">
+        <el-table-column label="操作" width="150" align="center" fixed="right">
           <template #default="scope">
             <slot name="action" :row="scope.row"></slot>
           </template>
@@ -122,6 +125,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  scrollbarAlwaysOn: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emits = defineEmits(['selection-change', 'page-change', 'delect-all']);
@@ -145,7 +152,6 @@ const resizeFun = debounce(() => {
   updateHeight();
   // tableRef.value?.doLayout();
   // tableKey.value = tableKey.value + 1;
-  console.log('Table layout updated', tableRef.value?.doLayout);
 }, 100);
 
 // 加载数据
