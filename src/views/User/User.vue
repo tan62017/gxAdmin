@@ -17,7 +17,7 @@ const dialogMap = {
   },
   permissions: {
     title: '角色权限',
-    width: '88%',
+    width: '75%',
     top: '30vh',
     component: Permissions,
   },
@@ -36,34 +36,54 @@ const dialogProps = ref(null);
 const colunms = [
   {
     id: 1,
-    label: '表名',
+    label: '用户名',
     // width: 50,
     prop: 'name',
     // type: "index",
     // fixed: "left",
     headerAlign: 'left',
-    textAlign: 'left',
+    align: 'left',
     showOverflowTooltip: true,
   },
   {
-    label: '上传人',
+    label: '角色',
     // width: 50,
-    prop: 'user',
+    prop: 'role',
     // type: "index",
     // fixed: "left",
-    headerAlign: 'left',
-    textAlign: 'left',
+    headerAlign: 'center',
+    align: 'center',
+    showOverflowTooltip: true,
+  },
+  {
+    label: '部门',
+    // width: 50,
+    prop: 'department',
+    // type: "index",
+    // fixed: "left",
+    headerAlign: 'center',
+    align: 'center',
+    showOverflowTooltip: true,
+  },
+  {
+    label: '状态',
+    // width: 50,
+    prop: 'status',
+    // type: "index",
+    // fixed: "left",
+    headerAlign: 'center',
+    align: 'center',
     showOverflowTooltip: true,
   },
   {
     id: 3,
-    label: '上传日期',
+    label: '创建日期',
     // width: 50,
     prop: 'time',
     // type: "index",
     // fixed: "left",
-    headerAlign: 'left',
-    textAlign: 'left',
+    headerAlign: 'center',
+    align: 'center',
     showOverflowTooltip: true,
   },
 ];
@@ -71,123 +91,129 @@ const colunms = [
 const tableData = [
   {
     time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
+    name: 'admin',
+    permissions: [],
+    bigVis: [],
+    department: '技术部',
+    role: '超级管理员',
+    status: true,
   },
   {
     time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
+    name: '黄嘉民',
+    permissions: [],
+    bigVis: [],
+    department: '技术部',
+    role: '管理员',
+    status: true,
   },
   {
     time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
+    name: '张三',
+    permissions: [],
+    bigVis: [],
+    department: '技术部',
+    role: '系统补录员',
+    status: true,
   },
   {
     time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
+    name: '李四',
+    permissions: [],
+    bigVis: [],
+    department: '技术部',
+    role: '系统补录员',
+    status: false,
   },
   {
     time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
+    name: '赵五',
+    permissions: [],
+    bigVis: [],
+    department: '技术部',
+    role: '管理员',
+    status: false,
   },
   {
     time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
+    name: '熊大',
+    permissions: [],
+    bigVis: [],
+    department: '技术部',
+    role: '数据管理',
+    status: true,
   },
   {
     time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
+    name: '熊二',
+    permissions: [],
+    bigVis: [],
+    department: '技术部',
+    role: '系统补录员',
+    status: true,
   },
   {
     time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
+    name: '黑一',
+    permissions: [],
+    bigVis: [],
+    department: '技术部',
+    role: '数据管理',
+    status: true,
   },
   {
     time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
+    name: '阿大',
+    permissions: [],
+    bigVis: [],
+    department: '技术部',
+    role: '管理员',
+    status: true,
   },
   {
     time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
+    name: '小熊',
+    permissions: [],
+    bigVis: [],
+    department: '技术部',
+    role: '系统补录员',
+    status: true,
   },
   {
     time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
+    name: '雄安',
+    permissions: [],
+    bigVis: [],
+    department: '技术部',
+    role: '系统补录员',
+    status: true,
   },
   {
     time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
+    name: '天一',
+    permissions: [],
+    bigVis: [],
+    department: '技术部',
+    role: '管理员',
+    status: false,
   },
   {
     time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
+    name: '地煞',
+    permissions: [],
+    bigVis: [],
+    department: '技术部',
+    role: '数据管理',
+    status: false,
   },
   {
     time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
-  },
-  {
-    time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
-  },
-  {
-    time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
-  },
-  {
-    time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
-  },
-  {
-    time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
-  },
-  {
-    time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
-  },
-  {
-    time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
-  },
-  {
-    time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
-  },
-  {
-    time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
-  },
-  {
-    time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
-  },
-  {
-    time: '2016-05-03',
-    name: '主要业务指标',
-    user: '小小',
+    name: '阿飞',
+    permissions: [],
+    bigVis: [],
+    department: '技术部',
+    role: '系统补录员',
+    status: false,
   },
 ];
 const pages = ref({
@@ -195,10 +221,11 @@ const pages = ref({
   currentPage: 1,
   pageSize: 10,
 });
-const delectDialog = ref(false);
+const dialogShow = ref(false);
 const delectAll = (arr) => {
-  delectDialog.value = true;
+  dialogShow.value = true;
   dialogType.value = 'delectAll';
+  dialogProps.value = arr;
 };
 const delectOne = (row) => {};
 const actionClick = (type, row) => {
@@ -209,9 +236,18 @@ const actionClick = (type, row) => {
       dialogMap.edit.title = '编辑角色';
     } else {
       dialogMap.edit.title = '创建角色';
+      dialogProps.value = {
+        name: '',
+        department: '',
+        status: true,
+      };
     }
   }
-  delectDialog.value = true;
+  dialogShow.value = true;
+};
+
+const closeDialog = () => {
+  dialogShow.value = false;
 };
 </script>
 
@@ -227,6 +263,11 @@ const actionClick = (type, row) => {
       :data="tableData"
       @delectAll="delectAll"
     >
+      <template #status="{ row }">
+        <el-tag :type="row.status ? 'success' : 'danger'">
+          {{ row.status ? '启用' : '禁用' }}
+        </el-tag>
+      </template>
       <template #action="{ row }">
         <div class="flex items-center">
           <div class="edit cursor-pointer" @click="actionClick('permissions', row)">权限</div>
@@ -236,12 +277,17 @@ const actionClick = (type, row) => {
       </template>
     </BaseTable>
     <DialogContent
-      v-model="delectDialog"
+      v-model="dialogShow"
       :title="dialogOptions.title"
       :width="dialogOptions.width"
       :top="dialogOptions.top"
+      :showBtns="false"
     >
-      <component :is="dialogOptions.component" :data="dialogProps"></component>
+      <component
+        :is="dialogOptions.component"
+        v-model:data="dialogProps"
+        :closeFun="closeDialog"
+      ></component>
     </DialogContent>
   </Content>
 </template>

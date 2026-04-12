@@ -11,9 +11,11 @@
       <div class="dialog-title font-size-24px">{{ title }}</div>
     </template>
     <template #footer>
-      <div class="dialog-footer">
-        <el-button type="primary" @click="dialogVisible = false">确认</el-button>
-        <el-button @click="dialogVisible = false">取消</el-button>
+      <div class="dialog-footer" v-show="showBtns">
+        <slot name="footer">
+          <el-button type="primary" @click="dialogVisible = false">确认</el-button>
+          <el-button @click="dialogVisible = false">取消</el-button>
+        </slot>
       </div>
     </template>
   </el-dialog>
@@ -32,6 +34,10 @@ const props = defineProps({
   width: {
     type: String,
     default: '50%',
+  },
+  showBtns: {
+    type: Boolean,
+    default: true,
   },
 });
 const dialogVisible = defineModel('modelValue');

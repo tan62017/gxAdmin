@@ -118,13 +118,14 @@ defineExpose({
         :prop="item.key"
         :label-width="item.labelWidth || labelWidth"
       >
-        <slot :name="item.key">
+        <slot :name="item.key" :data="item">
           <el-input
             v-if="item.type === 'input'"
             style="height: 100%"
             v-model="form[item.key]"
             :placeholder="item.placeholder || '请输入内容'"
             clearable
+            :disabled="item.disabled"
           />
           <el-input
             v-if="item.type === 'textarea'"
@@ -133,16 +134,45 @@ defineExpose({
             type="textarea"
             :placeholder="item.placeholder || '请输入内容'"
             clearable
+            :disabled="item.disabled"
           />
-          <el-switch v-if="item.type === 'switch'" v-model="form[item.key]" />
-          <el-select-v2
-            v-if="item.type === 'select'"
+          <MyCheckBox
+            v-if="item.type === 'checkbox'"
             v-model="form[item.key]"
-            style="height: 100%"
             :options="getOptions(item)"
-            clearable
-            :placeholder="item.placeholder || '请选择'"
+            :label="item.labelKey"
+            :value="item.valueKey"
+            :disabled="item.disabled"
+            :inline="typeof item.inline === 'boolean' ? item.inline : true"
           />
+          <el-radio-group v-model="form[item.key]" v-if="item.type === 'radio'">
+            <el-radio :value="op.value" v-for="op in getOptions(item)" :key="op.value">
+              {{ op.label }}
+            </el-radio>
+          </el-radio-group>
+          <el-switch
+            :disabled="item.disabled"
+            v-if="item.type === 'switch'"
+            v-model="form[item.key]"
+          />
+          <el-select
+            v-model="form[item.key]"
+            :multiple="item.multiple"
+            v-if="item.type === 'select'"
+            :placeholder="item.placeholder || '请选择'"
+            style="height: 100%"
+            clearable
+            :disabled="item.disabled"
+          >
+            <el-option
+              v-for="op in getOptions(item)"
+              :key="op.value"
+              :label="op.label"
+              :value="op.value"
+              :disabled="op.disabled"
+            />
+          </el-select>
+
           <el-upload
             action="#"
             v-if="item.type === 'upload'"
@@ -241,6 +271,9 @@ defineExpose({
         color: #3f465f;
       }
       .el-form-item__content {
+        height: 100%;
+      }
+      .el-select__wrapper {
         height: 100%;
       }
     }

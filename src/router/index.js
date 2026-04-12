@@ -88,6 +88,7 @@ export const defaultRoutes = [
       elIconAc: 'el-icon-industryAc',
       navigation: true,
       isOpen: true,
+      isSelect: true,
     },
   },
   {
@@ -104,6 +105,7 @@ export const defaultRoutes = [
       elIconAc: 'el-icon-projectAc',
       navigation: true,
       isOpen: true,
+      isSelect: true,
     },
     children: [
       {
@@ -119,6 +121,7 @@ export const defaultRoutes = [
           elIconAc: 'el-icon-projectAc',
           navigation: true,
           isOpen: true,
+          isSelect: true,
         },
       },
       {
@@ -134,6 +137,7 @@ export const defaultRoutes = [
           elIconAc: 'el-icon-industryAc',
           navigation: true,
           isOpen: true,
+          isSelect: true,
         },
       },
       {
@@ -149,6 +153,7 @@ export const defaultRoutes = [
           elIconAc: 'el-icon-industryAc',
           navigation: true,
           isOpen: true,
+          isSelect: true,
         },
       },
       {
@@ -164,6 +169,7 @@ export const defaultRoutes = [
           elIconAc: 'el-icon-industryAc',
           navigation: true,
           isOpen: true,
+          isSelect: true,
         },
       },
       {
@@ -179,6 +185,7 @@ export const defaultRoutes = [
           elIconAc: 'el-icon-projectAc',
           navigation: false,
           isOpen: true,
+          isSelect: true,
         },
         children: [],
       },
@@ -198,6 +205,7 @@ export const defaultRoutes = [
       elIconAc: 'el-icon-importantAc',
       navigation: true,
       isOpen: true,
+      isSelect: true,
     },
     children: [
       {
@@ -213,6 +221,7 @@ export const defaultRoutes = [
           elIconAc: 'el-icon-importantAc',
           navigation: true,
           isOpen: true,
+          isSelect: true,
         },
       },
     ],
@@ -230,6 +239,7 @@ export const defaultRoutes = [
       elIconAc: 'el-icon-businessAc',
       navigation: true,
       isOpen: true,
+      isSelect: true,
     },
     children: [
       {
@@ -244,6 +254,7 @@ export const defaultRoutes = [
           elIconAc: 'el-icon-businessAc',
           navigation: true,
           isOpen: true,
+          isSelect: true,
         },
       },
     ],
@@ -261,6 +272,7 @@ export const defaultRoutes = [
       elIconAc: 'el-icon-stateAc',
       navigation: true,
       isOpen: false,
+      isSelect: true,
     },
   },
   {
@@ -277,6 +289,7 @@ export const defaultRoutes = [
       elIconAc: 'el-icon-projectAc',
       navigation: true,
       isOpen: true,
+      isSelect: true,
     },
     children: [
       {
@@ -292,6 +305,7 @@ export const defaultRoutes = [
           elIconAc: 'el-icon-projectAc',
           navigation: true,
           isOpen: true,
+          isSelect: true,
         },
       },
     ],

@@ -1,6 +1,13 @@
 <template>
-  <div>编辑</div>
+  <div>{{ data }}</div>
 </template>
 
-<script setup></script>
+<script setup>
+const props = defineProps({
+  data: {
+    type: Object,
+    default: () => [],
+  },
+});
+</script>
 <style lang="scss" scoped></style>

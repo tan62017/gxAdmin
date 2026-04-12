@@ -26,12 +26,9 @@
           :header-align="column.headerAlign || 'left'"
         >
           <template #default="scope">
-            <template v-if="column.slot">
-              <slot :name="column.slot" :row="scope.row"></slot>
-            </template>
-            <template v-else>
+            <slot :name="column.prop" :row="scope.row">
               {{ scope.row[column.prop] }}
-            </template>
+            </slot>
           </template>
         </el-table-column>
       </template>

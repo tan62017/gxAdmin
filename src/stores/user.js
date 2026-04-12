@@ -1,21 +1,19 @@
-import { defineStore } from "pinia";
-import { sleep, useLocalStorage } from "@/utils";
-import router, { authRoutes } from "@/router";
-import {
-  checkToken as _checkToken,
-  login as _login,
-  getUserInfoByToken,
-} from "@/api";
+import { defineStore } from 'pinia';
+import { sleep, useLocalStorage } from '@/utils';
+import router, { defaultRoutes } from '@/router';
+import { checkToken as _checkToken, login as _login, getUserInfoByToken } from '@/api';
 
 // class Token {
 //   static SUPER = 'super64f549fed8a14057926358a635f'
 // }
 
-export const useUserStore = defineStore("user", () => {
-  const search = new URLSearchParams(window.location.href.split("?")[1]);
-  const _token = search.get("token");
-  const token = useLocalStorage("token", "");
-  const isLogin = ref(import.meta.env.VITE_IGNORED_LOGIN === "1");
+export const useUserStore = defineStore('user', () => {
+  const search = new URLSearchParams(window.location.href.split('?')[1]);
+  const _token = search.get('token');
+  const token = useLocalStorage('token', '');
+  const isLogin = ref(import.meta.env.VITE_IGNORED_LOGIN === '1');
+
+  const authRoutes = ref(defaultRoutes);
   if (_token) {
     token.value = _token;
   }
@@ -23,8 +21,9 @@ export const useUserStore = defineStore("user", () => {
   const userInfo = ref({});
 
   const registerAuthMenu = () => {
+    authRoutes.value.forEach((route) => router.addRoute(route));
     if (token.value && userInfo.value.isAdmin) {
-      authRoutes.forEach((route) => router.addRoute(route));
+      // authRoutes.forEach((route) => router.addRoute(route));
     }
   };
 
@@ -33,11 +32,11 @@ export const useUserStore = defineStore("user", () => {
     if (!err) {
       userInfo.value = {
         ...data,
-        isAdmin: data.userName === "admin",
+        isAdmin: data.userName === 'admin',
       };
     } else {
       userInfo.value = {};
-      ElMessage.error("获取用户信息失败");
+      ElMessage.error('获取用户信息失败');
     }
     if (userInfo.value.isAdmin) {
       registerAuthMenu();
@@ -49,15 +48,15 @@ export const useUserStore = defineStore("user", () => {
     const query = router.currentRoute.value.query;
     const { redirect } = query;
     location.assign(
-      `${origin}?target=${location.href.replace("/login", "")}${redirect}${
-        logout ? "#/login" : ""
-      }`
+      `${origin}?target=${location.href.replace('/login', '')}${redirect}${
+        logout ? '#/login' : ''
+      }`,
     );
   };
 
   const toLogin = () => {
     router.push({
-      name: "login",
+      name: 'login',
     });
   };
 
@@ -70,7 +69,7 @@ export const useUserStore = defineStore("user", () => {
         const [err, status] = await to(
           _checkToken({
             token: token.value,
-          })
+          }),
         );
         if (err) {
           return false;
@@ -100,17 +99,18 @@ export const useUserStore = defineStore("user", () => {
       return false;
     }
     token.value = data.data;
-    console.log("customLogin", user);
+    console.log('customLogin', user);
     return true;
   };
 
   const logout = async () => {
-    token.value = "";
+    token.value = '';
     await sleep(300);
     toLogin();
   };
 
   return {
+    authRoutes,
     token,
     login,
     userInfo,

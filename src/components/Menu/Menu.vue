@@ -1,6 +1,9 @@
 <script setup>
 import { KeepAlive } from 'vue';
 import { defaultRoutes } from '@/router';
+import { useUserStore } from '@/stores';
+
+const userStore = useUserStore();
 
 defineProps({
   title: {
@@ -15,7 +18,7 @@ const routes = router.getRoutes();
 const isCollapse = ref(false);
 function getMenuFromRoutes(routes, level = 0) {
   return routes
-    .filter((menu) => menu.meta.isMenu && (menu.meta.level || 0) === level)
+    .filter((menu) => menu.meta.isMenu && menu.meta.isSelect && (menu.meta.level || 0) === level)
     .map((route) => {
       const menu = {
         keepAlive: route.meta.keepAlive,
@@ -34,7 +37,7 @@ function getMenuFromRoutes(routes, level = 0) {
     });
 }
 // debugger
-const menuList = [...getMenuFromRoutes(defaultRoutes)];
+const menuList = [...getMenuFromRoutes(userStore.authRoutes)];
 
 function handleSelect(path) {
   const item = menuList.find((i) => i.path === path);
