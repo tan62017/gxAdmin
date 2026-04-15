@@ -1,9 +1,124 @@
 <template>
-  <Content> 数据状态 </Content>
+  <Content title="数据状态">
+    <MyForm
+      itemWidth="100%"
+      :disabled="true"
+      v-model="form"
+      label-width="130px"
+      :options="dataStatusOptions"
+    >
+      <template #status="{ data: item }">
+        <div class="slot-status" :class="[form[item.key] === '正常' ? 'sucess' : 'fail']"></div>
+      </template>
+      <template #system="{ data: item }">
+        <div class="slot-syms w-full flex">
+          <div
+            class="w-auto flex items-center mr-30px"
+            v-for="sys in form[item.key]"
+            :key="sys.label"
+          >
+            <div class="label w-auto whitespace-nowrap mr4px">{{ sys.label }}</div>
+            <el-icon><Warning /></el-icon>
+          </div>
+        </div>
+      </template>
+      <template #updateType="{ data: item }">
+        <div class="slot-update-type flex items-center w-full">
+          <div class="slot-update-type flex-shrink-0 mr-30px">{{ form[item.key] }}</div>
+          <MyCheckBox
+            v-model="form.updateList"
+            :options="updateOptions"
+            label="label"
+            value="value"
+            :disabled="true"
+            :inline="typeof item.inline === 'boolean' ? item.inline : true"
+            :isCheckAll="item.isCheckAll"
+          >
+          </MyCheckBox>
+        </div>
+      </template>
+    </MyForm>
+  </Content>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { Warning } from '@element-plus/icons-vue';
+import img from '@/assets/images/pageImgs/ex.png';
+const form = ref({
+  user: '张三',
+  status: '正常',
+  dateTime: '2024-06-01',
+  system: [
+    {
+      label: '社保资金链路驾驶仓',
+      icon: img,
+      content: '社保资金链路驾驶仓介绍撒旦黑龙江是的愤怒恐惧你看----------',
+      typesLine: ['对公条线-机构业务'],
+      num: 0,
+      checked: false,
+    },
+    {
+      label: '社保资金链路驾驶仓',
+      icon: img,
+      content: '社保资金链路驾驶仓介绍撒旦黑龙江是的愤怒恐惧你看----------',
+      typesLine: ['对公条线-机构业务'],
+      num: 0,
+      checked: false,
+    },
+  ],
+  updateType: '自动',
+  updateList: ['csv', 'handle'],
+});
+
+const updateOptions = [
+  {
+    label: '上传CSV文件',
+    value: 'csv',
+  },
+  {
+    label: '局部补录',
+    value: 'handle',
+  },
+];
+
+const dataStatusOptions = [
+  {
+    label: '当前数据状态：',
+    key: 'status',
+  },
+  {
+    label: '数据更新时间',
+    key: 'dateTime',
+    type: 'input',
+    width: '300px',
+  },
+  {
+    label: '业务系统：',
+    key: 'system',
+  },
+  {
+    label: '更新方式：',
+    key: 'updateType',
+  },
+  {
+    label: '操作员：',
+    key: 'user',
+    type: 'input',
+    width: '300px',
+  },
+];
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.slot-status {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  &.sucess {
+    background-color: #67c23a;
+  }
+  &.fail {
+    background-color: #f56c6c;
+  }
+}
+</style>

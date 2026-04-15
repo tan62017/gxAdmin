@@ -15,7 +15,7 @@
         itemWidth="160px"
         v-model="formData"
         label-width="0"
-        inline
+        :isline="true"
         :options="formOptions"
       ></MyForm>
     </div>

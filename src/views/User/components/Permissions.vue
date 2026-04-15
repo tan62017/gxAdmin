@@ -1,10 +1,10 @@
 <template>
   <MyForm
+    class="my-form-box"
     :rules="rules"
     :btns="formBtns"
     v-model="infoData"
     label-width="130px"
-    :inline="false"
     :options="bigVisOptions"
   >
     <template #bigScreens="{ data: item }">
@@ -14,12 +14,45 @@
         </el-radio>
       </el-radio-group>
     </template>
+    <template #bigTypes="{ data: item }">
+      <MyCheckBox
+        v-model="bigTypesChecks"
+        :options="item.options"
+        label="label"
+        value="label"
+        :inline="true"
+        :isCheckAll="true"
+      >
+      </MyCheckBox>
+    </template>
+    <template #bigvisDefaultList>
+      <MyCheckBox
+        class="bigvis-default-list-box"
+        v-model="bigVisCheckedList"
+        :options="bigVisDefaultList"
+        label="label"
+        value="label"
+        :inline="true"
+        :isCheckAll="true"
+      >
+        <template v-for="item in bigVisDefaultList" :key="item.label" #[item.label]>
+          <div class="option-slot">
+            <div
+              v-show="bigScreensValue !== 1"
+              class="img w-100% h-140px"
+              :style="{ backgroundImage: `url(${item.icon})` }"
+            ></div>
+            <div class="label">{{ item.label }}</div>
+          </div>
+        </template>
+      </MyCheckBox>
+    </template>
   </MyForm>
 </template>
 
 <script setup>
 import { useUserStore } from '@/stores';
-
+import { navList } from '@/config';
 const userStore = useUserStore();
 
 const props = defineProps({
@@ -33,6 +66,16 @@ const infoData = defineModel('data');
 const bigScreensValue = ref(1);
 
 const rules = {};
+
+const bigTypesChecks = ref([]);
+
+const bigVisDefaultList = ref([]);
+
+const bigVisCheckedList = ref([]);
+
+const bigVisList = computed(() => {
+  return navList.value.slice(1);
+});
 
 const formBtns = [
   {
@@ -96,15 +139,104 @@ const bigVisOptions = [
     width: '100%',
     options: [
       {
-        label: '大屏一',
+        label: '文字列表',
         value: 1,
       },
       {
-        label: '大屏二',
+        label: '图文列表',
         value: 2,
       },
     ],
   },
+  {
+    label: '大屏分类：',
+    key: 'bigTypes',
+    type: 'checkbox',
+    width: '100%',
+    height: 'auto',
+    options: bigVisList.value,
+    isCheckAll: true,
+  },
+  {
+    label: '',
+    key: 'bigvisDefaultList',
+    type: 'checkbox',
+    width: '100%',
+    height: 'auto',
+    isCheckAll: true,
+  },
 ];
+
+watch(
+  () => bigTypesChecks.value,
+  (newVal) => {
+    bigVisDefaultList.value = [];
+    // console.log('bigTypesChecks changed:', newVal);
+    bigVisList.value.filter((item) => {
+      if (newVal.includes(item.label)) {
+        // console.log('Selected item:', item);
+        bigVisDefaultList.value.push(...item.listAll);
+      }
+    });
+    console.log(bigVisDefaultList.value);
+  },
+);
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.my-form-box {
+  height: calc(100% - 100px);
+  overflow: hidden;
+  :deep(.form-content) {
+    height: calc(100% - 100px);
+    overflow: auto;
+  }
+}
+.bigvis-default-list-box {
+  :deep(.checked-all-box) {
+    align-self: flex-start;
+  }
+  :deep(.checked-list-options) {
+    display: flex;
+    flex-wrap: wrap;
+    label.el-checkbox {
+      display: flex;
+      width: 20%;
+      height: auto;
+      margin: 10px 20px;
+      overflow: hidden;
+      // display: flex;
+      // align-items: flex-end;
+      // justify-content: flex-start;
+      // width: auto;
+    }
+    span.el-checkbox__input,
+    span.el-checkbox__label {
+      display: block;
+      // width: 100%;
+      align-self: flex-end;
+      // margin-bottom: 10px;
+    }
+    span.el-checkbox__input {
+      margin-bottom: 2px;
+    }
+    span.el-checkbox__label {
+      // flex: 1;
+      width: calc(100% - 18px);
+    }
+    .option-slot {
+      width: 100%;
+      overflow: hidden;
+      .img {
+        background-size: 100% 100%;
+      }
+      .label {
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      // height: 120px;
+    }
+  }
+}
+</style>

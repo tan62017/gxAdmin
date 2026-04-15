@@ -18,7 +18,7 @@ const dialogMap = {
   permissions: {
     title: '角色权限',
     width: '75%',
-    top: '30vh',
+    top: '5vh',
     component: Permissions,
   },
   delectAll: {

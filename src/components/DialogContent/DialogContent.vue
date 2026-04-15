@@ -5,8 +5,9 @@
     :width="width"
     :before-close="handleClose"
     :top="top"
+    style="max-height: 88%; overflow: hidden"
   >
-    <slot></slot>
+    <slot class="h-full overflow-hidden"></slot>
     <template #header>
       <div class="dialog-title font-size-24px">{{ title }}</div>
     </template>
@@ -55,5 +56,17 @@ const handleClose = (done) => {
 
 <style lang="scss" scoped>
 .dialog-title {
+}
+</style>
+<style lang="scss">
+.el-dialog {
+  display: flex;
+  flex-direction: column;
+  .el-dialog__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
 }
 </style>
