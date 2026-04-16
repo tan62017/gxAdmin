@@ -35,7 +35,7 @@
 
       <!-- 操作列插槽 -->
       <slot name="actions-column">
-        <el-table-column label="操作" width="150" align="center" fixed="right">
+        <el-table-column label="操作" :width="actionWidth" align="center" fixed="right">
           <template #default="scope">
             <slot name="action" :row="scope.row"></slot>
           </template>
@@ -125,6 +125,10 @@ const props = defineProps({
   scrollbarAlwaysOn: {
     type: Boolean,
     default: true,
+  },
+  actionWidth: {
+    type: Number,
+    default: 150,
   },
 });
 

@@ -261,6 +261,7 @@ const closeDialog = () => {
       v-model:pages="pages"
       :columns="colunms"
       :data="tableData"
+      :actionWidth="200"
       @delectAll="delectAll"
     >
       <template #status="{ row }">
@@ -269,7 +270,7 @@ const closeDialog = () => {
         </el-tag>
       </template>
       <template #action="{ row }">
-        <div class="flex items-center">
+        <div class="flex items-center justify-center">
           <div class="edit cursor-pointer" @click="actionClick('permissions', row)">权限</div>
           <div class="edit mx-10px cursor-pointer" @click="actionClick('edit', row)">编辑</div>
           <MyTip targetElement=".table-list-box" @delect="delectOne(row)"> </MyTip>

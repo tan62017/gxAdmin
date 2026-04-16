@@ -18,7 +18,7 @@ const props = defineProps({
   },
   itemHeight: {
     type: [String, Function],
-    default: '30px',
+    default: '40px',
   },
   labelWidth: {
     type: [String, Function],

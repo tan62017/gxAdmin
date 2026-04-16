@@ -4,7 +4,7 @@
       itemWidth="100%"
       :disabled="true"
       v-model="form"
-      label-width="130px"
+      label-width="200px"
       :options="dataStatusOptions"
     >
       <template #status="{ data: item }">
@@ -18,7 +18,7 @@
             :key="sys.label"
           >
             <div class="label w-auto whitespace-nowrap mr4px">{{ sys.label }}</div>
-            <el-icon><Warning /></el-icon>
+            <el-icon class="cursor-pointer" @click="symClick(item)"><Warning /></el-icon>
           </div>
         </div>
       </template>
@@ -38,6 +38,12 @@
         </div>
       </template>
     </MyForm>
+    <el-dialog v-model="dialogVisible">
+      <div class="dialog-sym flex">
+        <el-image class="w-800px h-600px" :src="dialogImageUrl" fit="contain" />
+        <div class="msg">{{ symMsg }}</div>
+      </div>
+    </el-dialog>
   </Content>
 </template>
 
@@ -68,8 +74,11 @@ const form = ref({
   ],
   updateType: '自动',
   updateList: ['csv', 'handle'],
+  fileName: 'Football.csv',
 });
-
+const dialogVisible = ref(false);
+const dialogImageUrl = ref(img);
+const symMsg = ref({});
 const updateOptions = [
   {
     label: '上传CSV文件',
@@ -87,10 +96,10 @@ const dataStatusOptions = [
     key: 'status',
   },
   {
-    label: '数据更新时间',
+    label: '数据更新时间：',
     key: 'dateTime',
     type: 'input',
-    width: '300px',
+    width: '400px',
   },
   {
     label: '业务系统：',
@@ -101,12 +110,23 @@ const dataStatusOptions = [
     key: 'updateType',
   },
   {
+    label: '相关文件：',
+    key: 'fileName',
+    type: 'input',
+    width: '400px',
+  },
+  {
     label: '操作员：',
     key: 'user',
     type: 'input',
     width: '300px',
   },
 ];
+
+const symClick = (item) => {
+  dialogVisible.value = true;
+  symMsg.value = item;
+};
 </script>
 
 <style lang="scss" scoped>
