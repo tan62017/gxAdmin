@@ -6,7 +6,7 @@
         数据状态
         <div class="cirl w8px h8px ml-4px border-rd-50 bg-[#adf664]"></div>
       </div>
-      <div class="create cursor-pointer">创建补录</div>
+      <div class="create cursor-pointer" @click="goToCreate">创建补录</div>
     </div>
     <div class="right flex items-center justify-end">
       <div class="form-title mr16px">数据检索</div>
@@ -66,6 +66,12 @@ const formBtns = [
 const goDataStatus = () => {
   router.push({
     path: '/supplemental-admission-data-status',
+  });
+};
+
+const goToCreate = () => {
+  router.push({
+    path: '/supplemental-admission-create',
   });
 };
 </script>

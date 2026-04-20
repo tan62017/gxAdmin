@@ -32,6 +32,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  textAlignLast: {
+    type: [String, Function],
+    default: 'unset',
+  },
 });
 const ruleFormRef = ref(null);
 // const slots = useSlots()
@@ -100,167 +104,188 @@ function _init() {
 
 _init();
 
+async function validata() {
+  if (!ruleFormRef.value) return false;
+  await ruleFormRef.value?.validate((valid, fields) => {
+    if (valid) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+}
+
 defineExpose({
-  formRef: ruleFormRef.value,
+  formRef: ruleFormRef,
+  validata,
 });
 </script>
 
 <template>
-  <div class="search-form">
-    <el-form
-      ref="ruleFormRef"
-      :model="form"
-      class="w-full"
-      :class="{ 'demo-form-inline': props.isline }"
-    >
-      <div class="form-content" :class="{ 'form-content-inline': props.isline }">
-        <el-form-item
-          v-for="(item, index) in options"
-          :key="item.key"
-          :style="{ width: getWidth(item, index), height: getHeight(item, index) }"
-          :label="item.label"
-          :prop="item.key"
-          :label-width="item.labelWidth || labelWidth"
-        >
-          <slot :name="item.key" :data="item">
-            <el-input
-              v-if="item.type === 'input'"
-              style="height: 100%; width: 100%"
-              v-model="form[item.key]"
-              :placeholder="item.placeholder || '请输入内容'"
-              clearable
-              :disabled="props.disabled || item.disabled"
-            />
-            <el-input
-              v-if="item.type === 'textarea'"
-              style="height: 100%; width: 100%"
-              v-model="form[item.key]"
-              type="textarea"
-              :placeholder="item.placeholder || '请输入内容'"
-              clearable
-              :disabled="props.disabled || item.disabled"
-            />
-            <MyCheckBox
-              v-if="item.type === 'checkbox'"
-              v-model="form[item.key]"
-              :options="getOptions(item)"
-              :label="item.labelKey"
-              :value="item.valueKey"
-              :disabled="props.disabled || item.disabled"
-              :inline="typeof item.inline === 'boolean' ? item.inline : true"
-              :isCheckAll="item.isCheckAll"
-            >
-              <template v-for="(_, slotName) in $slots" :key="slotName" #[slotName]="slotProps">
-                <slot :name="slotName" v-bind="slotProps" />
-              </template>
-            </MyCheckBox>
-            <el-radio-group
-              v-model="form[item.key]"
-              v-if="item.type === 'radio'"
-              :disabled="props.disabled || item.disabled"
-            >
-              <el-radio
-                :value="op.value"
-                v-for="op in getOptions(item)"
-                :disabled="op.disabled"
-                :key="op.value"
-              >
-                {{ op.label }}
-              </el-radio>
-            </el-radio-group>
-            <el-switch
-              :disabled="props.disabled || item.disabled"
-              v-if="item.type === 'switch'"
-              v-model="form[item.key]"
-            />
-            <el-select
-              v-model="form[item.key]"
-              :multiple="item.multiple"
-              v-if="item.type === 'select'"
-              :placeholder="item.placeholder || '请选择'"
-              style="height: 100%; width: 100%"
-              clearable
-              :disabled="props.disabled || item.disabled"
-            >
-              <el-option
-                v-for="op in getOptions(item)"
-                :key="op.value"
-                :label="op.label"
-                :value="op.value"
-                :disabled="op.disabled"
+  <div class="search-form" v-bind="$attrs" :style="{ '--text-align-last': props.textAlignLast }">
+    <slot name="auto-form">
+      <el-form
+        ref="ruleFormRef"
+        :model="form"
+        class="w-full"
+        :class="{ 'demo-form-inline': props.isline }"
+        v-bind="$attrs"
+      >
+        <div class="form-content" :class="{ 'form-content-inline': props.isline }">
+          <el-form-item
+            v-for="(item, index) in options"
+            :key="item.key"
+            :style="{
+              width: getWidth(item, index),
+              height: getHeight(item, index),
+              alignItems: item.align || 'center',
+            }"
+            :label="item.label"
+            :prop="item.key"
+            :label-width="item.labelWidth || labelWidth"
+          >
+            <slot :name="item.key" :data="item">
+              <el-input
+                v-if="item.type === 'input'"
+                style="height: 100%; width: 100%"
+                v-model="form[item.key]"
+                :placeholder="item.placeholder || '请输入内容'"
+                clearable
+                :disabled="props.disabled || item.disabled"
               />
-            </el-select>
+              <el-input
+                v-if="item.type === 'textarea'"
+                style="height: 100%; width: 100%"
+                v-model="form[item.key]"
+                type="textarea"
+                :placeholder="item.placeholder || '请输入内容'"
+                clearable
+                :disabled="props.disabled || item.disabled"
+              />
+              <MyCheckBox
+                v-if="item.type === 'checkbox'"
+                v-model="form[item.key]"
+                :options="getOptions(item)"
+                :label="item.labelKey"
+                :value="item.valueKey"
+                :disabled="props.disabled || item.disabled"
+                :inline="typeof item.inline === 'boolean' ? item.inline : true"
+                :isCheckAll="item.isCheckAll"
+              >
+                <template v-for="(_, slotName) in $slots" :key="slotName" #[slotName]="slotProps">
+                  <slot :name="slotName" v-bind="slotProps" />
+                </template>
+              </MyCheckBox>
+              <el-radio-group
+                v-model="form[item.key]"
+                v-if="item.type === 'radio'"
+                :disabled="props.disabled || item.disabled"
+              >
+                <el-radio
+                  :value="op.value"
+                  v-for="op in getOptions(item)"
+                  :disabled="op.disabled"
+                  :key="op.value"
+                >
+                  {{ op.label }}
+                </el-radio>
+              </el-radio-group>
+              <el-switch
+                :disabled="props.disabled || item.disabled"
+                v-if="item.type === 'switch'"
+                v-model="form[item.key]"
+              />
+              <el-select
+                v-model="form[item.key]"
+                :multiple="item.multiple"
+                v-if="item.type === 'select'"
+                :placeholder="item.placeholder || '请选择'"
+                style="height: 100%; width: 100%"
+                clearable
+                :disabled="props.disabled || item.disabled"
+              >
+                <el-option
+                  v-for="op in getOptions(item)"
+                  :key="op.value"
+                  :label="op.label"
+                  :value="op.value"
+                  :disabled="op.disabled"
+                />
+              </el-select>
 
-            <el-upload
-              action="#"
-              v-if="item.type === 'upload'"
-              v-model:file-list="form[item.key]"
-              list-type="picture-card"
-              :auto-upload="false"
-              :limit="item.limit || 1"
-              :disabled="props.disabled || item.disabled"
-            >
-              <el-icon><Plus /></el-icon>
+              <el-upload
+                action="#"
+                v-if="item.type === 'upload'"
+                v-model:file-list="form[item.key]"
+                list-type="picture-card"
+                :auto-upload="false"
+                :limit="item.limit || 1"
+                :disabled="props.disabled || item.disabled"
+              >
+                <slot :name="item.key + '-upload-default'" :data="item">
+                  <el-icon><Plus /></el-icon>
+                </slot>
 
-              <template #file="{ file }">
-                <div>
-                  <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
-                  <span class="el-upload-list__item-actions">
-                    <span
-                      class="el-upload-list__item-preview"
-                      @click="handlePictureCardPreview(file)"
-                    >
-                      <el-icon><zoom-in /></el-icon>
+                <template #file="{ file }">
+                  <div>
+                    <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                    <span class="el-upload-list__item-actions">
+                      <span
+                        class="el-upload-list__item-preview"
+                        @click="handlePictureCardPreview(file)"
+                      >
+                        <el-icon><zoom-in /></el-icon>
+                      </span>
+                      <span
+                        v-if="!disabled"
+                        class="el-upload-list__item-delete"
+                        @click="handleRemove(file, form[item.key])"
+                      >
+                        <el-icon><Delete /></el-icon>
+                      </span>
                     </span>
-                    <span
-                      v-if="!disabled"
-                      class="el-upload-list__item-delete"
-                      @click="handleRemove(file, form[item.key])"
-                    >
-                      <el-icon><Delete /></el-icon>
-                    </span>
-                  </span>
-                </div>
-              </template>
-            </el-upload>
-            <el-cascader
-              v-if="item.type === 'cascader'"
-              style="height: 100%"
-              v-model="form[item.key]"
-              :options="getOptions(item)"
-              filterable
-              :props="{ checkStrictly: true }"
-              clearable
-              :placeholder="item.placeholder || '请选择'"
-              :disabled="props.disabled || item.disabled"
-            />
-            <el-date-picker
-              v-if="item.type === 'date'"
-              style="height: 100%; width: 100%"
-              v-model="form[item.key]"
-              :placeholder="item.placeholder || '请选择时间'"
-              :type="item.dateType"
-              :disabled="props.disabled || item.disabled"
-            />
+                  </div>
+                </template>
+              </el-upload>
+              <el-cascader
+                v-if="item.type === 'cascader'"
+                style="height: 100%"
+                v-model="form[item.key]"
+                :options="getOptions(item)"
+                filterable
+                :props="{ checkStrictly: true }"
+                clearable
+                :placeholder="item.placeholder || '请选择'"
+                :disabled="props.disabled || item.disabled"
+              />
+              <el-date-picker
+                v-if="item.type === 'date'"
+                style="height: 100%; width: 100%"
+                v-model="form[item.key]"
+                :placeholder="item.placeholder || '请选择时间'"
+                :type="item.dateType"
+                :disabled="props.disabled || item.disabled"
+              />
+            </slot>
+          </el-form-item>
+        </div>
+        <el-form-item v-if="showBtn && btns?.length">
+          <slot name="action">
+            <div class="btns">
+              <el-button
+                :type="btn.type"
+                :plain="btn.plain"
+                :size="btn.size || ''"
+                v-for="btn in btns"
+                :key="btn.label"
+                @click="btnClick(btn)"
+                >{{ btn.label }}</el-button
+              >
+            </div>
           </slot>
         </el-form-item>
-      </div>
-      <el-form-item v-if="showBtn && btns?.length">
-        <slot name="action">
-          <div class="btns">
-            <el-button
-              :type="btn.type"
-              :plain="btn.plain"
-              :size="btn.size || ''"
-              v-for="btn in btns"
-              :key="btn.label"
-              @click="btnClick(btn)"
-              >{{ btn.label }}</el-button
-            >
-          </div>
-        </slot>
-      </el-form-item>
-    </el-form>
+      </el-form>
+    </slot>
   </div>
   <el-dialog v-model="dialogVisible">
     <img w-full :src="dialogImageUrl" alt="Preview Image" />
@@ -269,7 +294,8 @@ defineExpose({
 
 <style lang="scss" scoped>
 .search-form {
-  height: 100%;
+  --text-align-last: unset;
+  max-height: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -306,15 +332,17 @@ defineExpose({
     overflow: hidden;
     .el-form-item {
       display: flex;
-      align-items: center;
+      // align-items: center;
+      margin-bottom: 0;
+      margin: 10px 0;
       .el-form-item__label {
         display: block;
-        font-size: 16px;
+        font-size: 18px;
         font-family: Source Han Sans CN, Source Han Sans CN-400;
         font-weight: 400;
-        text-align: RIGHT;
+        // text-align: RIGHT;
         letter-spacing: 3px;
-        // text-align-last: justify;
+        text-align-last: var(--text-align-last);
         color: #3f465f;
       }
       .el-form-item__content {

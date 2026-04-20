@@ -1,12 +1,7 @@
 <template>
   <div class="data-form">
     <form action=""></form>
-    <el-form
-      :model="form"
-      label-width="auto"
-      @submit="onSubmit"
-      style="max-width: 600px"
-    >
+    <el-form :model="form" label-width="auto" @submit="onSubmit" style="max-width: 600px">
       <el-form-item label="表明">
         <el-select v-model="form.region" placeholder="请选择表名">
           <el-option label="广西主要业务指标" value="shanghai" />
@@ -58,61 +53,59 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
-import { ElMessage, ElMessageBox } from "element-plus";
-import type { UploadProps, UploadUserFile } from "element-plus";
-import { useRouter } from "vue-router";
+import { reactive } from 'vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import type { UploadProps, UploadUserFile } from 'element-plus';
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
 const fileList = ref<UploadUserFile[]>([]);
 
-const handleRemove: UploadProps["onRemove"] = (file, uploadFiles) => {
+const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
   console.log(file, uploadFiles);
 };
 
-const handlePreview: UploadProps["onPreview"] = (uploadFile) => {
+const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
   console.log(uploadFile);
 };
 
-const handleExceed: UploadProps["onExceed"] = (files, uploadFiles) => {
+const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
   ElMessage.warning(
     `The limit is 3, you selected ${files.length} files this time, add up to ${
       files.length + uploadFiles.length
-    } totally`
+    } totally`,
   );
 };
 
-const beforeRemove: UploadProps["beforeRemove"] = (uploadFile, uploadFiles) => {
-  return ElMessageBox.confirm(
-    `Cancel the transfer of ${uploadFile.name} ?`
-  ).then(
+const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
+  return ElMessageBox.confirm(`Cancel the transfer of ${uploadFile.name} ?`).then(
     () => true,
-    () => false
+    () => false,
   );
 };
 
 // do not use same name with ref
 const form = reactive({
-  name: "",
-  region: "",
-  date1: "",
-  textarea: "",
+  name: '',
+  region: '',
+  date1: '',
+  textarea: '',
   delivery: false,
   type: [],
-  resource: "",
-  desc: "",
+  resource: '',
+  desc: '',
 });
 
 const onSubmit = () => {
-  console.log("submit!");
+  console.log('submit!');
 };
 const cancel = () => {
   router.go(-1);
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .data-form {
   margin-top: 30px;
   //   color: transparent;

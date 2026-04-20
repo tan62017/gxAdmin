@@ -141,6 +141,22 @@ export const defaultRoutes = [
         },
       },
       {
+        path: '/supplemental-admission-create',
+        name: 'supplemental-admission-create',
+        component: () => import('@/views/SupplementalAdmission/pages/CreateSupplemental/index.vue'),
+        meta: {
+          active: '/supplemental-admission',
+          showMenu: true,
+          title: '创建补录',
+          isMenu: false,
+          elIcon: 'el-icon-project',
+          elIconAc: 'el-icon-projectAc',
+          navigation: true,
+          isOpen: true,
+          isSelect: true,
+        },
+      },
+      {
         path: '/supplemental-admission-item',
         name: 'supplemental-admission-item',
         component: () => import('@/views/PageItemData/PageItemData.vue'),

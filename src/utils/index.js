@@ -16,6 +16,22 @@ export const setHtmlFontSize = (designWidth = 1920, minWidth = 1024) => {
   docEle.style.fontSize = fontSize.toFixed(3) + 'px';
 };
 
+export const pxToVw = (num, baseWidth = 1920) => {
+  if (!num) return '';
+  const docEle = document.documentElement;
+  const screenWidth = docEle.clientWidth;
+  const ratio = screenWidth / baseWidth;
+  return (num / baseWidth) * 100 * ratio + 'vw';
+};
+
+export const pxToVh = (num, baseHeight = 1080) => {
+  if (!num) return '';
+  const docEle = document.documentElement;
+  const screenHeight = docEle.clientHeight;
+  const ratio = screenHeight / baseHeight;
+  return (num / baseHeight) * 100 * ratio + 'vh';
+};
+
 export const getLocalStorage = (key) => {
   return JSON.parse(window.localStorage.getItem(key));
 };
@@ -187,10 +203,12 @@ export const urlTime = () => {
 export const getLocation = () => {
   return getUrlParams('location') || '';
 };
-export const pxToRem = (num, baseWidth = 19.2) => {
+export const pxToRem = (num, baseWidth = 1920) => {
   if (!num) return '';
-  // const baseNum=baseWidth?? 19.2
-  return num / baseWidth + 'rem';
+  const docEle = document.documentElement;
+  const screenWidth = docEle.clientWidth;
+  const ratio = screenWidth / baseWidth;
+  return (num / baseWidth) * 100 * ratio + 'rem';
 };
 
 /**
