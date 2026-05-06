@@ -255,22 +255,22 @@ const closeDialog = () => {
   <Content>
     <Top @create="actionClick('edit')"></Top>
     <BaseTable
-      class="table-list-box mt30px w-full overflow-hidden"
+      class="table-list-box mt20px w-full overflow-hidden"
       showSelection
       :showPage="true"
       v-model:pages="pages"
       :columns="colunms"
       :data="tableData"
-      :actionWidth="200"
+      :actionWidth="240"
       @delectAll="delectAll"
     >
       <template #status="{ row }">
         <el-tag :type="row.status ? 'success' : 'danger'">
-          {{ row.status ? '启用' : '禁用' }}
+          <div class="font-size-18px">{{ row.status ? '启用' : '禁用' }}</div>
         </el-tag>
       </template>
       <template #action="{ row }">
-        <div class="flex items-center justify-center">
+        <div class="flex items-center justify-center px-10px">
           <div class="edit cursor-pointer" @click="actionClick('permissions', row)">权限</div>
           <div class="edit mx-10px cursor-pointer" @click="actionClick('edit', row)">编辑</div>
           <MyTip targetElement=".table-list-box" @delect="delectOne(row)"> </MyTip>

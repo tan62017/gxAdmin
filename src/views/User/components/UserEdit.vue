@@ -3,7 +3,7 @@
     :rules="rules"
     :btns="formBtns"
     v-model="infoData"
-    label-width="130px"
+    :label-width="$pxToRem(130)"
     :inline="false"
     :options="bigVisOptions"
   ></MyForm>

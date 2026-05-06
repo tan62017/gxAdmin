@@ -5,7 +5,7 @@
         itemWidth="100%"
         :disabled="true"
         v-model="form"
-        :item-height="$pxToVh(55)"
+        :item-height="$pxToVh(45)"
         :label-width="$pxToRem(150)"
         :options="dataStatusOptions"
       >

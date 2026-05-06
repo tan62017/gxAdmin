@@ -13,7 +13,7 @@
       :key="tableKey"
     >
       <!-- 选择列 -->
-      <el-table-column v-if="showSelection" type="selection" width="35" />
+      <el-table-column v-if="showSelection" type="selection" align="center" width="35" />
 
       <!-- 数据列 -->
       <template v-for="column in processedColumns" :key="column.prop">
@@ -127,8 +127,8 @@ const props = defineProps({
     default: true,
   },
   actionWidth: {
-    type: Number,
-    default: 150,
+    type: [Number, String],
+    default: 180,
   },
 });
 
@@ -212,7 +212,7 @@ function updateHeight() {
       const rect = tableDom.getBoundingClientRect();
       const pageRect = tablePage.getBoundingClientRect();
 
-      height.value = rect.height - 80 || 0;
+      height.value = rect.height - 100 || 0;
     }
   });
 }
@@ -240,11 +240,32 @@ defineExpose({
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   :deep(.el-table) {
     width: 100%;
+    .cell {
+      font-size: 22px;
+    }
     thead {
-      height: 50px;
+      height: 60px;
+      th {
+        height: 100%;
+        padding: 0;
+        .cell {
+          height: auto;
+          font-size: 24px;
+          padding: 2px 0;
+        }
+      }
+    }
+    tbody tr {
+      // font-size: 40px;
+      // height: 50px;
+      td .cell {
+        padding: 8px 0;
+        // font-size: 24px !important;
+      }
     }
     th.el-table__cell {
       background-color: #e6eff8;
+      // font-size: 26px;
     }
     .el-table__inner-wrapper,
     .el-table__header,
@@ -309,6 +330,11 @@ defineExpose({
   margin-bottom: 15px;
 }
 .active-header {
+  font-size: inherit;
+  span {
+    font-size: inherit;
+  }
+  //font-size: 24px !important;
   :deep(.el-button) {
     background-color: #288cde;
   }
@@ -318,7 +344,7 @@ defineExpose({
 // }
 /*table-*/
 </style>
-<style lang="scss">
+<!-- <style lang="scss">
 .my-table {
   --el-table-row-hover-bg-color: rgba(98, 179, 245, 0.158);
   tr {
@@ -343,4 +369,4 @@ defineExpose({
     font-size: 24px;
   }
 }
-</style>
+</style> -->

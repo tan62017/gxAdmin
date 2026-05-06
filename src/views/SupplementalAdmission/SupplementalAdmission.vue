@@ -3,7 +3,17 @@ import Top from './components/Top.vue';
 const colunms = [
   {
     id: 1,
-    label: '表名',
+    label: '补录时间',
+    // width: 50,
+    prop: 'time',
+    // type: "index",
+    // fixed: "left",
+    headerAlign: 'left',
+    textAlign: 'left',
+    showOverflowTooltip: true,
+  },
+  {
+    label: '补录系统',
     // width: 50,
     prop: 'name',
     // type: "index",
@@ -13,7 +23,8 @@ const colunms = [
     showOverflowTooltip: true,
   },
   {
-    label: '上传人',
+    id: 3,
+    label: '用户',
     // width: 50,
     prop: 'user',
     // type: "index",
@@ -23,8 +34,8 @@ const colunms = [
     showOverflowTooltip: true,
   },
   {
-    id: 3,
-    label: '上传日期',
+    id: 4,
+    label: '数据时间',
     // width: 50,
     prop: 'time',
     // type: "index",
@@ -167,6 +178,8 @@ const delectAll = (arr) => {
   console.log(arr);
   delectDialog.value = true;
 };
+const delectOne = (row) => {};
+const actionClick = (row) => {};
 </script>
 
 <template>
@@ -181,6 +194,12 @@ const delectAll = (arr) => {
       :data="tableData"
       @delectAll="delectAll"
     >
+      <template #action="{ row }">
+        <div class="flex items-center justify-around px-10px">
+          <div class="edit cursor-pointer" @click="actionClick('edit', row)">编辑</div>
+          <MyTip targetElement=".table-list-box" @delect="delectOne(row)"> </MyTip>
+        </div>
+      </template>
     </BaseTable>
     <DialogContent v-model="delectDialog" title="批量删除" width="40%"> </DialogContent>
   </Content>

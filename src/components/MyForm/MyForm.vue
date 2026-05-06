@@ -328,6 +328,10 @@ defineExpose({
   .demo-form-inline {
     // display: flex !important;
     flex-direction: row !important;
+    :deep(.el-form-item) {
+      margin-right: 10px !important;
+      margin-left: 10px !important;
+    }
   }
   :deep(.el-form) {
     flex: 1;

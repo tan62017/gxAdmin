@@ -3,9 +3,9 @@ import Top from './components/Top.vue';
 const colunms = [
   {
     id: 1,
-    label: '表名',
+    label: '日期',
     // width: 50,
-    prop: 'name',
+    prop: 'time',
     // type: "index",
     // fixed: "left",
     headerAlign: 'left',
@@ -13,7 +13,7 @@ const colunms = [
     showOverflowTooltip: true,
   },
   {
-    label: '上传人',
+    label: '用户',
     // width: 50,
     prop: 'user',
     // type: "index",
@@ -24,9 +24,31 @@ const colunms = [
   },
   {
     id: 3,
-    label: '上传日期',
+    label: '部门',
     // width: 50,
-    prop: 'time',
+    prop: 'name',
+    // type: "index",
+    // fixed: "left",
+    headerAlign: 'left',
+    textAlign: 'left',
+    showOverflowTooltip: true,
+  },
+  {
+    id: 4,
+    label: 'ip',
+    // width: 50,
+    prop: 'ip',
+    // type: "index",
+    // fixed: "left",
+    headerAlign: 'left',
+    textAlign: 'left',
+    showOverflowTooltip: true,
+  },
+  {
+    id: 5,
+    label: '访问页面',
+    // width: 50,
+    prop: 'url',
     // type: "index",
     // fixed: "left",
     headerAlign: 'left',
@@ -167,6 +189,7 @@ const delectAll = (arr) => {
   console.log(arr);
   delectDialog.value = true;
 };
+const look = () => {};
 </script>
 
 <template>
@@ -181,6 +204,11 @@ const delectAll = (arr) => {
       :data="tableData"
       @delectAll="delectAll"
     >
+      <template #action="{ row }">
+        <div class="flex items-center justify-center px-10px">
+          <div class="edit cursor-pointer" @click="look(row)">查看</div>
+        </div>
+      </template>
     </BaseTable>
     <DialogContent v-model="delectDialog" title="批量删除" width="40%"> </DialogContent>
   </Content>

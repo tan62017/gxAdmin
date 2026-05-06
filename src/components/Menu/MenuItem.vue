@@ -61,6 +61,11 @@ defineProps({
   &.is-active {
     background-color: #6072ff;
   }
+  &.is-disabled {
+    &:hover {
+      color: #000;
+    }
+  }
 }
 .el-menu-item {
   // display: flex;
