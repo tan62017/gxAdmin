@@ -19,7 +19,7 @@
             :options="updateOptions"
             v-model="item.form"
             :rules="rules"
-            :label-width="$pxToVh(200)"
+            :label-width="$pxToRem(150)"
             :style="{ height: 'auto' }"
           >
             <template #sym="{ data }">
@@ -95,6 +95,7 @@ const updateOptions = [
     key: 'sym',
     type: 'select',
     placeholder: '请选择业务系统',
+    width: '600px',
     options: [
       {
         label: '社保大屏',

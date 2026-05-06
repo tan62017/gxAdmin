@@ -36,6 +36,10 @@ const props = defineProps({
     type: [String, Function],
     default: 'unset',
   },
+  labelPosition: {
+    type: String,
+    default: 'right',
+  },
 });
 const ruleFormRef = ref(null);
 // const slots = useSlots()
@@ -129,6 +133,7 @@ defineExpose({
         :model="form"
         class="w-full"
         :class="{ 'demo-form-inline': props.isline }"
+        :label-position="props.labelPosition || 'right'"
         v-bind="$attrs"
       >
         <div class="form-content" :class="{ 'form-content-inline': props.isline }">
@@ -340,7 +345,7 @@ defineExpose({
         font-size: 18px;
         font-family: Source Han Sans CN, Source Han Sans CN-400;
         font-weight: 400;
-        // text-align: RIGHT;
+        text-align: RIGHT;
         letter-spacing: 3px;
         text-align-last: var(--text-align-last);
         color: #3f465f;

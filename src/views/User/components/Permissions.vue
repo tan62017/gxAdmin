@@ -111,6 +111,7 @@ const bigVisOptions = [
     type: 'input',
     placeholder: '请输入用户名',
     disabled: true,
+    width: '600px',
   },
   {
     label: '角色：',
@@ -118,6 +119,7 @@ const bigVisOptions = [
     type: 'select',
     disabled: true,
     placeholder: '请选择部门',
+    width: '600px',
   },
   {
     label: '权限：',

@@ -6,7 +6,7 @@
         :disabled="true"
         v-model="form"
         :item-height="$pxToVh(55)"
-        :label-width="$pxToRem(200)"
+        :label-width="$pxToRem(150)"
         :options="dataStatusOptions"
       >
         <template #status="{ data: item }">
@@ -108,7 +108,7 @@ const dataStatusOptions = [
     label: '数据更新时间：',
     key: 'dateTime',
     type: 'input',
-    width: '400px',
+    width: '600px',
   },
   {
     label: '业务系统：',
@@ -122,13 +122,13 @@ const dataStatusOptions = [
     label: '相关文件：',
     key: 'fileName',
     type: 'input',
-    width: '400px',
+    width: '600px',
   },
   {
     label: '操作员：',
     key: 'user',
     type: 'input',
-    width: '300px',
+    width: '600px',
   },
 ];
 

@@ -19,7 +19,7 @@
             v-model="item.form"
             :rules="rules"
             :isline="true"
-            :label-width="$pxToVh(200)"
+            :label-width="$pxToRem(150)"
             :style="{ height: 'auto' }"
           >
             <template #sym="{ data }">
@@ -61,13 +61,13 @@
                   v-model="targetItem.form"
                   :rules="rules"
                   :isline="true"
-                  :label-width="$pxToVh(200)"
+                  :label-width="$pxToVh(150)"
                   :style="{ height: 'auto' }"
                 >
                 </MyForm>
               </div>
               <div
-                class="target-tools flex justify-around absolute top-50% left-92% translate-y-[-50%]"
+                class="target-tools flex justify-around absolute top-50% left-95% translate-y-[-50%]"
               >
                 <el-icon
                   :size="26"
@@ -302,5 +302,8 @@ onMounted(() => {});
   .el-icon {
     cursor: pointer;
   }
+}
+:deep(.el-form-item) {
+  margin-left: 20px !important;
 }
 </style>

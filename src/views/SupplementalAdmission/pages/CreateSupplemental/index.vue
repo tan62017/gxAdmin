@@ -6,7 +6,7 @@
           <MyForm
             itemWidth="100%"
             v-model="form"
-            :label-width="$pxToVh(200)"
+            :label-width="$pxToRem(150)"
             :options="dataStatusOptions"
             class="update-status-form"
             :style="{ height: 'auto' }"
