@@ -288,6 +288,7 @@ const closeDialog = () => {
         :is="dialogOptions.component"
         v-model:data="dialogProps"
         :closeFun="closeDialog"
+        :key="dialogOptions.title"
       ></component>
     </DialogContent>
   </Content>

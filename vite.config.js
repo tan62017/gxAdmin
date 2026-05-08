@@ -52,6 +52,7 @@ export default defineConfig(() => {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
         '@components': resolve(__dirname, 'src/components'),
+        '@api': resolve(__dirname, 'src/api'),
       },
     },
     build: {

@@ -1,14 +1,10 @@
 <template>
-  <div
-    class="right-item"
-    :class="{ 'right-item-hidden': data?.showType === 'hidden' }"
-    @click="change(data)"
-  >
+  <div class="right-item" :class="{ 'right-item-hidden': !data?.show }" @click="change(data)">
     <div class="img" :style="{ backgroundImage: ` url(${data?.icon})` }"></div>
     <div class="text-box">
       <div class="label">{{ data?.label }}</div>
       <div class="types">
-        {{ data?.types?.join('、') }}
+        {{ data?.typesLine?.join('、') }}
       </div>
       <div class="looks">访问量：{{ data?.num }}</div>
     </div>

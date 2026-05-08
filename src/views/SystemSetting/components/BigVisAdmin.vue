@@ -31,8 +31,15 @@
               {{ item.label }}
             </div>
             <div class="item-content-msg-content">简介：{{ item.content || '--' }}</div>
-            <div class="item-content-msg-content">分类：{{ item.content || '--' }}</div>
-            <div class="item-content-msg-content">机构：{{ item.content || '--' }}</div>
+            <div class="item-content-msg-content">
+              分类：{{ item.typesLine.join('、') || '--' }}
+            </div>
+            <div class="item-content-msg-content">机构：{{ item.unit || '--' }}</div>
+            <div class="item-content-msg-content">
+              开放：<el-tag :type="item.show ? 'success' : 'danger'">
+                <div class="font-size-18px">{{ item.show ? '✔' : '×' }}</div>
+              </el-tag>
+            </div>
           </div>
           <div class="item-content-btns">
             <el-button plain type="primary" @click="editBigVis(item)">编辑</el-button>
@@ -46,14 +53,16 @@
         </div>
       </div>
     </div>
-    <el-drawer v-model="drawer" direction="rtl" :title="dialogTitle" resizable>
+    <el-drawer v-model="drawer" direction="rtl" :title="dialogTitle" resizable @close="drawerClose">
       <MyForm
+        ref="myFormRef"
         :rules="rules"
         :btns="formBtns"
         v-model="formData"
-        label-width="130px"
+        :label-width="$pxToRem(150)"
         :inline="false"
         :options="bigVisOptions"
+        :key="Number(drawer)"
       ></MyForm>
     </el-drawer>
   </div>
@@ -64,31 +73,36 @@ import { navList } from '@/config';
 import { bigVisOptions } from '../config';
 import { ipv4Regex, ipv6Regex } from '@/config/regex';
 import { WarningFilled } from '@element-plus/icons-vue';
+import { cloneDeep, isBoolean } from 'lodash-es';
 
 const isCheckedAll = ref(false);
 
 const drawer = ref(false);
 
+const myFormRef = ref(null);
+
 const dialogTitle = ref('添加大屏');
 const targetElement = ref('');
 const tipRef = ref(null);
+
+const freedForm = {};
 
 const formData = ref({
   name: '',
   location: '',
   status: true,
   type: null,
-  img: [],
+  imgs: [],
   unit: null,
   intro: '',
 });
 const rules = {
-  name: [
+  label: [
     { required: true, message: '请输入大屏名称', trigger: 'blur' },
     { min: 2, max: 99, message: '名字长度为2~99个文字', trigger: 'blur' },
   ],
   location: [{ required: true, validator: validateIp, trigger: 'blur' }],
-  type: [
+  typesLine: [
     {
       required: true,
       message: '请选择大屏分类',
@@ -167,13 +181,32 @@ function validateIp(rule, value, callback) {
 }
 
 const addBigVis = () => {
+  Object.keys(formData.value).forEach((k) => {
+    if (Array.isArray(formData.value[k])) {
+      formData.value[k] = [];
+    } else if (isBoolean(formData.value[k])) {
+      formData.value[k] = false;
+    } else {
+      formData.value[k] = null;
+    }
+    freedForm[k] = formData.value[k];
+  });
   drawer.value = true;
+  // formData.value = {};
   dialogTitle.value = '添加大屏';
 };
 
 const editBigVis = (item) => {
+  formData.value = cloneDeep(item);
+  const arr = item?.icon.split('/') || [];
+  const imgName = arr?.[arr?.length - 1];
+  formData.value.imgs = [{ name: imgName, url: 'http://localhost:8090' + item?.icon }];
   drawer.value = true;
   dialogTitle.value = '编辑大屏';
+};
+
+const drawerClose = () => {
+  myFormRef.value?.formRef?.resetFields();
 };
 const deleteAll = () => {
   if (isCheckedAll.value) {
@@ -216,6 +249,13 @@ onMounted(() => {
       //   padding: 12px;
       box-shadow: 0px 1px 5px rgba(40, 40, 211, 0.685);
     }
+  }
+  .item-content-msg-content {
+    margin: 4px 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* 限制行数为2 */
+    overflow: hidden;
   }
 }
 .tip-content {

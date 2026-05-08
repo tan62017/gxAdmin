@@ -66,30 +66,8 @@ const changeItem = (data) => {
   }
 };
 
-const processList = (data) => {
-  (data || []).forEach((i) => {
-    let typeArr = [];
-    i.types = i.typesLine.map((type) => {
-      typeArr = type?.split('-');
 
-      const navItem = navList.value.find((nav) => nav.label === typeArr[0]);
-      if (navItem) {
-        if (typeArr.length === 1) navItem.list.push(i);
-        else {
-          typeArr.slice(1).forEach((b) => {
-            const navB = navItem.list.find((navChild) => navChild.label === b);
-            if (navB) {
-              navB.list.push(i);
-            }
-          });
-        }
-      }
-
-      return typeArr[0];
-    });
-  });
-};
-processList(navList.value[0].list);
+// processList(navList.value[0].list);
 </script>
 
 <template>

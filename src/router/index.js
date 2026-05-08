@@ -28,7 +28,7 @@ export const authRoutes = [
   //   meta: {
   //     title: '权限管理',
   //     icon: Lock,
-  //     isMenu: true
+  //     isMenu: true,
   //   },
   //   children: [
   //     {
@@ -41,8 +41,8 @@ export const authRoutes = [
   //         title: '用户管理',
   //         isMenu: true,
   //         icon: User,
-  //         level: 1
-  //       }
+  //         level: 1,
+  //       },
   //     },
   //     {
   //       path: '/auth/role',
@@ -54,8 +54,8 @@ export const authRoutes = [
   //         title: '角色管理',
   //         isMenu: true,
   //         icon: UserFilled,
-  //         level: 1
-  //       }
+  //         level: 1,
+  //       },
   //     },
   //     {
   //       path: '/auth/menu',
@@ -67,11 +67,11 @@ export const authRoutes = [
   //         title: '菜单管理',
   //         isMenu: true,
   //         icon: Menu,
-  //         level: 1
-  //       }
-  //     }
-  //   ]
-  // }
+  //         level: 1,
+  //       },
+  //     },
+  //   ],
+  // },
 ];
 
 export const defaultRoutes = [

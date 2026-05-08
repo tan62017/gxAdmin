@@ -29,7 +29,7 @@ const navClick = (data) => {
     <div class="nav-left flex flex-1 mr30px">
       <div
         v-for="(i, index) in data"
-        :key="i.label || index"
+        :key="index + i.label"
         class="nav-item"
         :class="[active === i.label ? 'nav-active' : '']"
         @click="navClick(i)"

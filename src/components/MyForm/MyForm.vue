@@ -119,6 +119,10 @@ async function validata() {
   });
 }
 
+// onMounted(() => {
+//   ruleFormRef.value?.resetFields();
+// });
+
 defineExpose({
   formRef: ruleFormRef,
   validata,
@@ -143,6 +147,7 @@ defineExpose({
             :style="{
               width: getWidth(item, index),
               height: getHeight(item, index),
+              '--item-height': getHeight(item, index),
               alignItems: item.align || 'center',
             }"
             :label="item.label"
@@ -203,11 +208,14 @@ defineExpose({
               <el-select
                 v-model="form[item.key]"
                 :multiple="item.multiple"
+                collapse-tags
+                collapse-tags-tooltip
                 v-if="item.type === 'select'"
                 :placeholder="item.placeholder || '请选择'"
                 style="height: 100%; width: 100%"
                 clearable
                 :disabled="props.disabled || item.disabled"
+                v-bind="$attrs"
               >
                 <el-option
                   v-for="op in getOptions(item)"
@@ -217,7 +225,6 @@ defineExpose({
                   :disabled="op.disabled"
                 />
               </el-select>
-
               <el-upload
                 action="#"
                 v-if="item.type === 'upload'"
@@ -365,6 +372,12 @@ defineExpose({
   :deep(.el-form--inline) {
     display: flex;
     align-items: center;
+  }
+  :deep(.el-upload--picture-card) {
+    --el-upload-picture-card-size: var(--item-height);
+  }
+  :deep(.el-upload-list--picture-card) {
+    --el-upload-list-picture-card-size: var(--item-height);
   }
 }
 </style>

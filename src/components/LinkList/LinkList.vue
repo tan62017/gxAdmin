@@ -6,7 +6,7 @@
           v-bind="$attrs"
           v-for="(item, index) in data"
           :data="item"
-          :key="item?.label || index"
+          :key="item?.location || index"
         />
       </div>
     </div>
