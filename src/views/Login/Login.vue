@@ -12,8 +12,9 @@ const form = ref({
 
 function getMd5Form() {
   return {
-    password: md5(form.value.password),
-    userName: form.value.username,
+    // password: md5(form.value.password),
+    password: form.value.password,
+    username: form.value.username,
   };
 }
 

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { sleep, useLocalStorage } from '@/utils';
 import router, { defaultRoutes } from '@/router';
-import { checkToken as _checkToken, login as _login, getUserInfoByToken } from '@/api';
+import { login as _login } from '@/api/user';
 
 // class Token {
 //   static SUPER = 'super64f549fed8a14057926358a635f'
@@ -28,19 +28,19 @@ export const useUserStore = defineStore('user', () => {
   };
 
   const getUserInfo = async () => {
-    const [err, data] = await to(getUserInfoByToken({ token: token.value }));
-    if (!err) {
-      userInfo.value = {
-        ...data,
-        isAdmin: data.userName === 'admin',
-      };
-    } else {
-      userInfo.value = {};
-      ElMessage.error('获取用户信息失败');
-    }
-    if (userInfo.value.isAdmin) {
-      registerAuthMenu();
-    }
+    // const [err, data] = await to(getUserInfoByToken({ token: token.value }));
+    // if (!err) {
+    //   userInfo.value = {
+    //     ...data,
+    //     isAdmin: data.userName === 'admin',
+    //   };
+    // } else {
+    //   userInfo.value = {};
+    //   ElMessage.error('获取用户信息失败');
+    // }
+    // if (userInfo.value.isAdmin) {
+    //   registerAuthMenu();
+    // }
   };
 
   const toThirdLogin = (logout) => {
@@ -66,40 +66,42 @@ export const useUserStore = defineStore('user', () => {
     }
     if (token.value) {
       const checkToken = async () => {
-        const [err, status] = await to(
-          _checkToken({
-            token: token.value,
-          }),
-        );
-        if (err) {
-          return false;
-        }
-        return status.tokenStatus;
+        // const [err, status] = await to(
+        //   _checkToken({
+        //     token: token.value,
+        //   }),
+        // );
+        // if (err) {
+        //   return false;
+        // }
+        // return status.tokenStatus;
       };
 
-      const pass = await checkToken();
-      if (pass) {
-        isLogin.value = true;
-        await getUserInfo();
-        return true;
-      } else {
-        return false;
-      }
+      // const pass = await checkToken();
+      // if (pass) {
+      //   isLogin.value = true;
+      //   await getUserInfo();
+      //   return true;
+      // } else {
+      //   return false;
+      // }
     } else {
       return false;
     }
   };
 
   const customLogin = async (user) => {
-    const { err, data } = await _login(user);
-    // console.log(.);
+    const res = await _login(user);
+    console.log(res, 'login////////////////');
 
-    if (!data || data.code !== 200 || err) {
-      ElMessage.error(data?.message || err.message);
-      return false;
-    }
-    token.value = data.data;
-    console.log('customLogin', user);
+    // // console.log(.);
+
+    // if (!data || data.code !== 200 || err) {
+    //   ElMessage.error(data?.message || err.message);
+    //   return false;
+    // }
+    // token.value = data.data;
+    // console.log('customLogin', user);
     return true;
   };
 

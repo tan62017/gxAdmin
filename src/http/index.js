@@ -66,9 +66,10 @@ class RequestManager {
     return RequestManager.generateKey(config);
   }
 }
+console.log(import.meta.env.VITE_APP_HTTP_URL, 'import.meta.env.VITE_APP_BASE_API');
 
 const defaultConfig = {
-  baseURL: process.env.VUE_APP_BASE_API || '',
+  baseURL: import.meta.env.VITE_APP_HTTP_URL || '',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
@@ -77,10 +78,11 @@ const defaultConfig = {
 
 class HttpClient {
   constructor(options = {}) {
-    this.options = options;
+    this.options = { ...defaultConfig, ...options };
     this.requestManager = new RequestManager();
     this.requestCount = 0; // 用于 loading 计数
-    this.instance = axios.create({ defaultConfig, ...options });
+    this.instance = axios.create(this.options);
+    console.log(this.options, this.instance);
 
     this.setupInterceptors();
   }
