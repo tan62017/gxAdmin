@@ -1,3 +1,5 @@
+import { getToken, removeLocalUser, removeToken } from '@/utils';
+import { ElMessage } from 'element-plus';
 import axios from 'axios';
 
 // 请求管理器
@@ -66,13 +68,12 @@ class RequestManager {
     return RequestManager.generateKey(config);
   }
 }
-console.log(import.meta.env.VITE_APP_HTTP_URL, 'import.meta.env.VITE_APP_BASE_API');
 
 const defaultConfig = {
   baseURL: import.meta.env.VITE_APP_HTTP_URL || '',
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json;charset=UTF-8',
+    // 'Content-Type': 'application/json;charset=UTF-8', // 移除默认 Content-Type，让 axios 自动根据数据类型设置
   },
 };
 
@@ -82,7 +83,6 @@ class HttpClient {
     this.requestManager = new RequestManager();
     this.requestCount = 0; // 用于 loading 计数
     this.instance = axios.create(this.options);
-    console.log(this.options, this.instance);
 
     this.setupInterceptors();
   }
@@ -100,9 +100,24 @@ class HttpClient {
         }
 
         // 添加 token
-        const token = localStorage.getItem('token');
+        const token = getToken();
+        // if (config.headers) {
+        //   console.log(config.headers);
+        //   Object.keys(config.headers).forEach((key) => {
+        //     config.headers[key]
+        //   });
+        // }
+        console.log(config, '===========================');
+
         if (token && config.withToken !== false) {
           config.headers.Authorization = `Bearer ${token}`;
+        }
+
+        // 如果数据是 FormData，删除 Content-Type，让 axios 自动设置 multipart/form-data
+        if (config.data instanceof FormData) {
+          config.headers['Content-Type'] = 'multipart/form-data';
+        } else {
+          delete config.headers['Content-Type'];
         }
 
         // 添加时间戳防止缓存
@@ -142,7 +157,7 @@ class HttpClient {
         const res = response.data;
 
         // 根据实际后端返回调整
-        if (res.code !== undefined && res.code !== 200) {
+        if (res.code !== 200) {
           // 处理特定状态码
           this.handleBusinessError(res.code, res.message, response.config);
 
@@ -173,7 +188,9 @@ class HttpClient {
         if (error.config && error.config.showLoading) {
           this.hideLoading();
         }
-
+        if (error.config.showError) {
+          this.showError(error.message || '请求失败');
+        }
         // 处理错误
         this.handleError(error);
 
@@ -205,6 +222,7 @@ class HttpClient {
   showError(message) {
     // Toast.fail(message);
     console.error(message);
+    ElMessage.error(message);
   }
 
   // 处理业务错误
@@ -212,7 +230,9 @@ class HttpClient {
     switch (code) {
       case 401:
         // 未授权
-        localStorage.removeItem('token');
+        removeToken();
+        removeLocalUser();
+
         // 触发登录事件
         window.dispatchEvent(new CustomEvent('unauthorized'));
         break;
@@ -238,7 +258,10 @@ class HttpClient {
           break;
         case 401:
           console.error('未授权，请重新登录');
-          localStorage.removeItem('token');
+          removeToken();
+          removeLocalUser();
+          // 触发登录事件
+          window.dispatchEvent(new CustomEvent('unauthorized'));
           // window.location.href = '/login';
           break;
         case 403:
@@ -319,9 +342,6 @@ class HttpClient {
     formData.append('file', file);
 
     return this.instance.post(url, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
       ...config,
     });
   }
@@ -338,7 +358,7 @@ class HttpClient {
 
 // 创建默认实例
 const http = new HttpClient({
-  showLoading: true,
+  showLoading: false,
   showError: true,
 });
 

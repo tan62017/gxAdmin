@@ -37,7 +37,7 @@ const navClick = (data) => {
         {{ i.label }}
       </div>
     </div>
-    <div class="nav-right">
+    <div class="nav-right flex items-center">
       <SearchInput v-bind="$attrs" v-model:isClear="isClear"></SearchInput>
     </div>
   </div>

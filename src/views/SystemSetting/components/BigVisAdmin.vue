@@ -11,16 +11,16 @@
     <div class="big-vis-list flex-1 overflow-auto">
       <div
         class="big-vis-item flex h-300px p-20px mx16px my12px border-rd-8px"
-        v-for="item in navList[0].list"
+        v-for="item in infoPagesList"
         :key="item.label"
       >
         <div class="img w-38% h250px border-rd-8px overflow-hidden">
           <el-image
             ref="imageRef"
             style="width: 100%; height: 100%"
-            :src="item.icon"
+            :src="item.img"
             show-progress
-            :preview-src-list="[item.icon]"
+            :preview-src-list="[item.img]"
             fit="cover"
           />
           <!-- <img style="width: 100%; height: 100%" :src="item.icon" alt="" srcset="" /> -->
@@ -28,7 +28,7 @@
         <div class="item-content flex-1 h-full pl-20px py-12px flex flex-col justify-between">
           <div class="item-content-msg">
             <div class="item-content-msg-title font-size-20px font-bold mb-18px">
-              {{ item.label }}
+              {{ item.name }}
             </div>
             <div class="item-content-msg-content">简介：{{ item.content || '--' }}</div>
             <div class="item-content-msg-content">
@@ -36,8 +36,8 @@
             </div>
             <div class="item-content-msg-content">机构：{{ item.unit || '--' }}</div>
             <div class="item-content-msg-content">
-              开放：<el-tag :type="item.show ? 'success' : 'danger'">
-                <div class="font-size-18px">{{ item.show ? '✔' : '×' }}</div>
+              开放：<el-tag :type="item.is_show ? 'success' : 'danger'">
+                <div class="font-size-18px">{{ item.is_show ? '✔' : '×' }}</div>
               </el-tag>
             </div>
           </div>
@@ -69,14 +69,20 @@
 </template>
 
 <script setup>
-import { navList } from '@/config';
+// import { navList } from '@/config';
 import { bigVisOptions } from '../config';
-import { ipv4Regex, ipv6Regex } from '@/config/regex';
+import { urlRegex, ipv4Regex, ipv6Regex } from '@/config/regex';
 import { WarningFilled } from '@element-plus/icons-vue';
 import { cloneDeep, isBoolean } from 'lodash-es';
-
+import { usePagesStore } from '@/stores';
+import { pageEdit, pageAdd } from '@/api/pages';
+import { ElMessage } from 'element-plus';
+const pagesStore = usePagesStore();
 const isCheckedAll = ref(false);
+pagesStore.getPagesList();
 
+const navList = toRef(pagesStore, 'navList');
+const infoPagesList = toRef(pagesStore, 'infoPagesList');
 const drawer = ref(false);
 
 const myFormRef = ref(null);
@@ -90,7 +96,7 @@ const freedForm = {};
 const formData = ref({
   name: '',
   location: '',
-  status: true,
+  is_show: true,
   type: null,
   imgs: [],
   unit: null,
@@ -127,6 +133,27 @@ const formBtns = [
       if (!formEl) return;
       await formEl.validate((valid, fields) => {
         if (valid) {
+          formData.value.is_show = formData.value.is_show ? 1 : 0;
+          // formData.value.img = '';
+          if (dialogTitle.value === '添加大屏') {
+            // 添加逻辑
+            console.log('添加大屏:', formData.value);
+            const formDataInfo = updateFormData();
+            pageAdd(formDataInfo).then(() => {
+              pagesStore.getPagesList();
+              drawer.value = false;
+              ElMessage.success('添加成功');
+            });
+          } else {
+            // 编辑逻辑
+            console.log('编辑大屏:', formData.value);
+            const formDataInfo = updateFormData();
+            pageEdit(formData.value.id, formDataInfo).then(() => {
+              pagesStore.getPagesList();
+              drawer.value = false;
+              ElMessage.success('修改成功');
+            });
+          }
           console.log('submit!');
         } else {
           console.log('error submit!', fields);
@@ -154,6 +181,39 @@ const formBtns = [
   },
 ];
 
+function updateFormData() {
+  //判断imgs是否是上传的文件，如果是使用new FormData重新构造数据，否则直接使用原数据
+
+  const formDataInfo = new FormData();
+  Object.keys(formData.value).forEach((k) => {
+    if (k === 'imgs' && formData.value.imgs.length > 0 && formData.value.imgs[0].raw) {
+      formData.value[k]?.forEach((file) => {
+        formDataInfo.append('imgFile', file.raw);
+      });
+    } else {
+      const currentValue =
+        typeof formData.value[k] === 'boolean'
+          ? formData.value[k]
+            ? 1
+            : 0
+          : typeof formData.value[k] === 'object'
+          ? JSON.stringify(formData.value[k])
+          : formData.value[k];
+      formDataInfo.append(k, currentValue);
+    }
+  });
+  return formDataInfo;
+
+  if (
+    Array.isArray(formData.value.imgs) &&
+    formData.value.imgs.length > 0 &&
+    formData.value.imgs[0].raw
+  ) {
+  } else {
+    return formData.value;
+  }
+}
+
 const delectOne = (item) => {
   closeAllTips();
 };
@@ -173,7 +233,7 @@ function closeAllTips() {
 function validateIp(rule, value, callback) {
   if (!value) {
     callback(new Error('请输入IP地址'));
-  } else if (ipv4Regex.test(value) || ipv6Regex.test(value)) {
+  } else if (urlRegex.test(value) || ipv4Regex.test(value) || ipv6Regex.test(value)) {
     callback();
   } else {
     callback(new Error('请输入正确的IPv4或IPv6地址'));
@@ -198,10 +258,12 @@ const addBigVis = () => {
 
 const editBigVis = (item) => {
   formData.value = cloneDeep(item);
-  const arr = item?.icon.split('/') || [];
+  const arr = item?.img.split('/') || [];
   const imgName = arr?.[arr?.length - 1];
-  formData.value.imgs = [{ name: imgName, url: 'http://localhost:8090' + item?.icon }];
+  formData.value.is_show = Boolean(item.is_show);
+  formData.value.imgs = [{ name: imgName, url: item?.img }];
   drawer.value = true;
+
   dialogTitle.value = '编辑大屏';
 };
 
@@ -211,7 +273,7 @@ const drawerClose = () => {
 const deleteAll = () => {
   if (isCheckedAll.value) {
     isCheckedAll.value = false;
-    navList.value = navList.value.map((item) => {
+    infoPagesList.value = infoPagesList.value.map((item) => {
       item.checked = false;
       return item;
     });
@@ -222,7 +284,7 @@ const deleteAll = () => {
 };
 const delectCancel = () => {
   isCheckedAll.value = false;
-  navList.value[0].list = navList.value[0].list.map((item) => {
+  infoPagesList.value = infoPagesList.value.map((item) => {
     item.checked = false;
     return item;
   });

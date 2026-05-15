@@ -6,10 +6,12 @@
     :before-close="handleClose"
     :top="top"
     style="max-height: 88%; overflow: hidden"
+    v-bind="$attrs"
   >
     <slot class="h-full overflow-hidden"></slot>
     <template #header>
-      <div class="dialog-title font-size-24px">{{ title }}</div>
+      <div class="dialog-title font-size-24px" v-if="title">{{ title }}</div>
+      <div v-else class="hidden"></div>
     </template>
     <template #footer>
       <div class="dialog-footer" v-show="showBtns">

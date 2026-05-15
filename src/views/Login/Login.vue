@@ -2,9 +2,30 @@
 import { Lock, User } from '@element-plus/icons-vue';
 import { md5 } from 'js-md5';
 import { useUserStore } from '@/stores/user';
+import { getToken } from '@/utils';
 const router = useRouter();
 const route = useRoute();
 const userStore = useUserStore();
+userStore.getUserInfo(goToRedirect);
+const loadingOptions = {
+  text: '正在登陆',
+  spinner: 'svg',
+  svg: `
+        <path class="path" d="
+          M 30 15
+          L 28 17
+          M 25.61 25.61
+          A 15 15, 0, 0, 1, 15 30
+          A 15 15, 0, 1, 1, 27.99 7.5
+          L 15 15
+        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
+      `,
+  background: 'rgba(255, 255, 255, 0.6)',
+  elementLoadingSvgViewBox: '-10, -10, 50, 50',
+};
+const loading = toRef(userStore, 'loginLoading');
+const loginText = toRef(userStore, 'loginText');
+
 const form = ref({
   username: '',
   password: '',
@@ -25,17 +46,33 @@ async function login() {
   if (!form.value.password) {
     return ElMessage.error('请输入密码');
   }
-  const { redirect = '/' } = route.query;
+
   const success = await userStore.customLogin(getMd5Form());
   if (success) {
-    router.push(redirect);
+    const token = getToken();
+    const timer = setTimeout(() => {
+      clearTimeout(timer);
+      goToRedirect();
+    }, 1000);
     ElMessage.success('登录成功');
   }
+}
+
+function goToRedirect() {
+  const { redirect = '/' } = route.query;
+  router.push(redirect);
 }
 </script>
 
 <template>
-  <div class="login flex ic jc w-full h100%">
+  <div
+    class="login flex ic jc w-full h100%"
+    v-loading.fullscreen.lock="loading"
+    :element-loading-text="loginText"
+    :element-loading-spinner="loadingOptions.svg"
+    :element-loading-svg-view-box="loadingOptions.elementLoadingSvgViewBox"
+    :element-loading-background="loadingOptions.background"
+  >
     <el-form class="form">
       <div class="logo"></div>
       <div class="admin-name">大屏货架系统</div>
@@ -61,6 +98,9 @@ async function login() {
         <div class="edit">忘记密码？</div>
       </div>
     </el-form>
+    <!-- <DialogContent v-model="loading" title="" width="40%" :showBtns="false" :show-close="false">
+      <div class="flex flex-col ic jc"></div>
+    </DialogContent> -->
   </div>
 </template>
 

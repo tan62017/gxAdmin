@@ -10,8 +10,6 @@ import { pxToVw, pxToVh, pxToRem } from './utils';
 import './assets/css/main.scss';
 import './utils/addEvent';
 
-// userStore.login()
-
 const app = createApp(App);
 app.config.globalProperties.$pxToVw = pxToVw;
 app.config.globalProperties.$pxToVh = pxToVh;

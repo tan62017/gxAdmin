@@ -30,19 +30,19 @@
         class="bigvis-default-list-box"
         v-model="bigVisCheckedList"
         :options="bigVisDefaultList"
-        label="label"
-        value="label"
+        label="name"
+        value="name"
         :inline="true"
         :isCheckAll="true"
       >
-        <template v-for="item in bigVisDefaultList" :key="item.label" #[item.label]>
+        <template v-for="item in bigVisDefaultList" :key="item.label" #[item.name]>
           <div class="option-slot">
             <div
               v-show="bigScreensValue !== 1"
               class="img w-100% h-140px"
-              :style="{ backgroundImage: `url(${item.icon})` }"
+              :style="{ backgroundImage: `url(${item.img})` }"
             ></div>
-            <div class="label">{{ item.label }}</div>
+            <div class="label">{{ item.name }}</div>
           </div>
         </template>
       </MyCheckBox>
@@ -165,6 +165,7 @@ const bigVisOptions = [
     type: 'checkbox',
     width: '100%',
     height: 'auto',
+    // label: 'name',
     isCheckAll: true,
   },
 ];
@@ -176,11 +177,16 @@ watch(
     // console.log('bigTypesChecks changed:', newVal);
     bigVisList.value.filter((item) => {
       if (newVal.includes(item.label)) {
+        if (item.label === '对公条线') {
+          item.list.forEach((i) => {
+            bigVisDefaultList.value.push(...i.list);
+          });
+        } else {
+          bigVisDefaultList.value.push(...item.list);
+        }
         // console.log('Selected item:', item);
-        bigVisDefaultList.value.push(...item.listAll);
       }
     });
-    console.log(bigVisDefaultList.value);
   },
 );
 </script>

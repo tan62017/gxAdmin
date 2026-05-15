@@ -10,7 +10,7 @@ export const systemLouy = [
 export const bigVisOptions = [
   {
     label: '大屏：',
-    key: 'label',
+    key: 'name',
     type: 'input',
     width: '100%',
     placeholder: '请输入大屏名称',
@@ -25,7 +25,7 @@ export const bigVisOptions = [
   },
   {
     label: '状态：',
-    key: 'show',
+    key: 'is_show',
     type: 'switch',
     placeholder: '',
   },

@@ -1,7 +1,16 @@
 import { defineStore } from 'pinia';
-import { sleep, useLocalStorage } from '@/utils';
+import {
+  sleep,
+  useLocalStorage,
+  getLocalUser,
+  setToken,
+  setLocalUser,
+  removeToken,
+  removeLocalUser,
+} from '@/utils';
 import router, { defaultRoutes } from '@/router';
-import { login as _login } from '@/api/user';
+import { login as _login, getUserByToken as _getUserInfo, logout as _logout } from '@/api/user';
+import loginSetting from '@/loginSetting';
 
 // class Token {
 //   static SUPER = 'super64f549fed8a14057926358a635f'
@@ -10,15 +19,20 @@ import { login as _login } from '@/api/user';
 export const useUserStore = defineStore('user', () => {
   const search = new URLSearchParams(window.location.href.split('?')[1]);
   const _token = search.get('token');
+  const _isAdmin = search.get('role') === 'admin';
   const token = useLocalStorage('token', '');
   const isLogin = ref(import.meta.env.VITE_IGNORED_LOGIN === '1');
+  const loginLoading = ref(false);
+  const loginText = ref('正在登录...');
 
   const authRoutes = ref(defaultRoutes);
   if (_token) {
     token.value = _token;
+    setToken(_token);
   }
+  console.log(getLocalUser(), 'getLocalUser()????????');
 
-  const userInfo = ref({});
+  const userInfo = ref(getLocalUser() || {});
 
   const registerAuthMenu = () => {
     authRoutes.value.forEach((route) => router.addRoute(route));
@@ -27,20 +41,39 @@ export const useUserStore = defineStore('user', () => {
     }
   };
 
-  const getUserInfo = async () => {
-    // const [err, data] = await to(getUserInfoByToken({ token: token.value }));
-    // if (!err) {
-    //   userInfo.value = {
-    //     ...data,
-    //     isAdmin: data.userName === 'admin',
-    //   };
-    // } else {
-    //   userInfo.value = {};
-    //   ElMessage.error('获取用户信息失败');
-    // }
-    // if (userInfo.value.isAdmin) {
-    //   registerAuthMenu();
-    // }
+  const getUserInfo = async (callBack) => {
+    loginLoading.value = true;
+    if (_token) {
+      try {
+        loginText.value = '正在获取用户信息...';
+        const res = await _getUserInfo();
+
+        if (res.code === 200) {
+          const userMsg = { ...res.data, token: _token };
+          setLocalUser(userMsg);
+          userInfo.value = userMsg;
+        }
+        const timer = setTimeout(() => {
+          clearTimeout(timer);
+          loginLoading.value = false;
+          if (callBack) {
+            callBack();
+          }
+        }, 1000);
+      } catch (error) {
+        loginLoading.value = false;
+      }
+    } else {
+      if (!_isAdmin) {
+        loginText.value = '准备跳转到统一认证平台...';
+        // loginText.value = '正在跳转到统一认证平台...';
+        await sleep(1000);
+        loginLoading.value = false;
+        // uassLogin();
+      } else {
+        loginLoading.value = false;
+      }
+    }
   };
 
   const toThirdLogin = (logout) => {
@@ -53,7 +86,12 @@ export const useUserStore = defineStore('user', () => {
       }`,
     );
   };
-
+  /**
+   * uass登录方法
+   */
+  function uassLogin() {
+    window.location.href = loginSetting.uassLoginUrl + '?sysId=' + loginSetting.uassSysId;
+  }
   const toLogin = () => {
     router.push({
       name: 'login',
@@ -65,26 +103,7 @@ export const useUserStore = defineStore('user', () => {
       return userInfo.value;
     }
     if (token.value) {
-      const checkToken = async () => {
-        // const [err, status] = await to(
-        //   _checkToken({
-        //     token: token.value,
-        //   }),
-        // );
-        // if (err) {
-        //   return false;
-        // }
-        // return status.tokenStatus;
-      };
-
-      // const pass = await checkToken();
-      // if (pass) {
-      //   isLogin.value = true;
-      //   await getUserInfo();
-      //   return true;
-      // } else {
-      //   return false;
-      // }
+      const checkToken = async () => {};
     } else {
       return false;
     }
@@ -92,8 +111,18 @@ export const useUserStore = defineStore('user', () => {
 
   const customLogin = async (user) => {
     const res = await _login(user);
-    console.log(res, 'login////////////////');
 
+    if (res.code === 200) {
+      token.value = res.data.token;
+      isLogin.value = true;
+      setToken(res.data?.token);
+      setLocalUser(res.data);
+      userInfo.value = res.data;
+      return true;
+      // await getUserInfo();
+    } else {
+      return false;
+    }
     // // console.log(.);
 
     // if (!data || data.code !== 200 || err) {
@@ -102,22 +131,31 @@ export const useUserStore = defineStore('user', () => {
     // }
     // token.value = data.data;
     // console.log('customLogin', user);
-    return true;
   };
 
   const logout = async () => {
-    token.value = '';
-    await sleep(300);
+    removeToken();
+    removeLocalUser();
+    // await sleep(300);
+    await _logout();
     toLogin();
   };
 
+  const getToken = () => {
+    return token.value;
+  };
+
   return {
+    loginLoading,
+    loginText,
     authRoutes,
     token,
-    login,
     userInfo,
-    registerAuthMenu,
     isLogin,
+    login,
+    getUserInfo,
+    registerAuthMenu,
+    getToken,
     logout,
     toLogin,
     toThirdLogin,

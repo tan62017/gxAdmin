@@ -11,62 +11,106 @@ import {
   hexToStr,
   strToHex,
   getLocation,
+  getToken,
 } from '@/utils';
+import { pageAddView } from '@/api/pages';
+import { usePagesStore } from '@/stores';
+import { cloneDeep } from 'lodash-es';
+const pagesStore = usePagesStore();
+const proUrl = hexToStr('687474703a2f2f36302e302e3139312e3231313a39313138');
+const testUrl = hexToStr('687474703a2f2f3132382e312e3132342e36383a39313138');
 
-import { navList } from '@/config';
+const baseUrl =
+  getLocation() ||
+  (import.meta.env.MODE === 'development'
+    ? 'http://localhost'
+    : import.meta.env.MODE === 'production'
+    ? proUrl
+    : testUrl);
+// import { navList } from '@/config';
 
-const navListData = getLocalStorage('NAV_LIST_DATA');
+// const navListData = getLocalStorage('NAV_LIST_DATA');
+pagesStore.getPagesList();
 
-if (navListData) {
-  // navList.value = navListData;
-  navList.value.forEach((i, index) => {
-    const item = (navListData || []).find((b) => b?.label === i.label);
-    if (i.list) {
-      i.list.forEach((b, ind) => {
-        b.num = item?.list[ind]?.num || 0;
-      });
-    }
-  });
-}
+const navList = toRef(pagesStore, 'navList');
+const infoPagesList = toRef(pagesStore, 'infoPagesList');
+// const getPagesList = unref(pagesStore, 'getPagesList');
+
+// if (navListData) {
+//   // navList.value = navListData;
+//   navList.value.forEach((i, index) => {
+//     const item = (navListData || []).find((b) => b?.label === i.label);
+//     if (i.list) {
+//       i.list.forEach((b, ind) => {
+//         b.num = item?.list[ind]?.num || 0;
+//       });
+//     }
+//   });
+// }
 
 const navContentData = reactive({
   label: '全部',
   leftData: [],
   rightData: [],
 });
-navContentData.leftData = [];
-navContentData.rightData = navList.value[0].list || [];
+
+let activeItem = {};
+let activeList = [];
+// navContentData.leftData = [];
+// navContentData.rightData = navList.value[0].list || [];
 const changeNav = (data) => {
-  navContentData.label = data.label;
-  if (['全部', '零售条线', '综合管理'].includes(data.label)) {
+  activeItem = data;
+  const fItem = navList.value.find((i) => i.label === data.label);
+
+  navContentData.label = fItem.label;
+  if (['全部', '零售条线', '综合管理'].includes(fItem.label)) {
     navContentData.leftData = [];
-    navContentData.rightData = data.list || [];
+    navContentData.rightData = fItem.list || [];
   } else {
-    navContentData.leftData = data.list;
-    navContentData.rightData = data.list[0]?.list || [];
+    navContentData.leftData = fItem.list;
+    navContentData.rightData = fItem.list[0]?.list || [];
   }
+  activeList = cloneDeep(navContentData.rightData);
 };
 const tabClick = (data) => {
   navContentData.rightData = data.list || [];
 };
 
 const search = (data) => {
-  navContentData.label = '全部';
-  navContentData.leftData = [];
-  navContentData.rightData = navList.value[0].list.filter((i) => i.label.includes(data));
+  console.log(data);
+  if (data) {
+    navContentData.rightData = activeList.filter((i) => i.name?.includes(data));
+  } else {
+    navContentData.rightData = activeList;
+  }
+  // navContentData.label = '全部';
+  // navContentData.leftData = [];
 };
 
-const changeItem = (data) => {
-  data.num += 1;
+const changeItem = async (data) => {
+  await pageAddView(data.id);
+  pagesStore.getPagesList();
+  // return;
   if (data.location) {
-    window.open(data.location);
-    setLocalStorage('NAV_LIST_DATA', navList.value);
+    window.open(data.location + `?token=${getToken()}&from_url=${baseUrl}/gxAdmin/home`);
+    // setLocalStorage('NAV_LIST_DATA', navList.value);
   } else {
     ElMessage.error('暂未开放');
   }
 };
-
-
+watch(
+  () => navList.value,
+  (val) => {
+    if (Array.isArray(val) && val.length) {
+      if (Object.keys(activeItem).length) {
+        changeNav(activeItem);
+      } else {
+        changeNav(val[0]);
+      }
+    }
+  },
+  { immediate: true, deep: true },
+);
 // processList(navList.value[0].list);
 </script>
 

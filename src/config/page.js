@@ -36,8 +36,8 @@ const hasTime = urlTime();
 
 const data = [
   {
-    label: '社保资金链路驾驶仓',
-    icon: img,
+    name: '社保资金链路驾驶仓',
+    img: img,
     show: true,
     content: '社保资金链路驾驶仓介绍撒旦黑龙江是的愤怒恐惧你看----------',
     location:
@@ -51,8 +51,8 @@ const data = [
     checked: false,
   },
   {
-    label: '广西分行高质量发展检测平台',
-    icon: gg,
+    name: '广西分行高质量发展检测平台',
+    img: gg,
     show: true,
     location: baseUrl + `/vis?from_url=${baseUrl}/gxAdmin/home`,
     // "http://localhost/Html/?from_url=${baseUrl}/gxAdmin/home"/,
@@ -62,8 +62,8 @@ const data = [
     checked: false,
   },
   {
-    label: '建行物色业务挂图作战分布',
-    icon: area,
+    name: '建行物色业务挂图作战分布',
+    img: area,
     show: false,
     location:
       baseUrl +
@@ -75,8 +75,8 @@ const data = [
     checked: false,
   },
   {
-    label: '对公活期资金流向全景图',
-    icon: moneyImg,
+    name: '对公活期资金流向全景图',
+    img: moneyImg,
     show: true,
     location:
       baseUrl +
@@ -88,8 +88,8 @@ const data = [
     checked: false,
   },
   {
-    label: '“五篇大文章”主要指标仪表盘',
-    icon: fiveImg,
+    name: '“五篇大文章”主要指标仪表盘',
+    img: fiveImg,
     show: true,
     location:
       baseUrl +
@@ -101,8 +101,8 @@ const data = [
     checked: false,
   },
   {
-    label: '"三个一万亿"重大项目库',
-    icon: threeImg,
+    name: '"三个一万亿"重大项目库',
+    img: threeImg,
     show: true,
     location:
       baseUrl +
@@ -114,8 +114,8 @@ const data = [
     checked: false,
   },
   {
-    label: '个人金融驾驶舱大屏',
-    icon: owserImg,
+    name: '个人金融驾驶舱大屏',
+    img: owserImg,
     show: true,
     location:
       'http://i.ccb.com/apps/91f50bc1d5814bd88688294c235b864a/index.html#/index/CD00002910/CD00002911/CD00002912',
@@ -126,8 +126,8 @@ const data = [
     checked: false,
   },
   {
-    label: '行长日报',
-    icon: bankNav,
+    name: '行长日报',
+    img: bankNav,
     show: true,
     location:
       baseUrl +
@@ -139,8 +139,8 @@ const data = [
     checked: false,
   },
   {
-    label: '金融科技部重点工作督办平台',
-    icon: rollImg,
+    name: '金融科技部重点工作督办平台',
+    img: rollImg,
     show: true,
     location: baseUrl + `/gxAdmin/working?from_url=${baseUrl}/gxAdmin`,
 
@@ -230,8 +230,6 @@ export const supList = ref([
 ]);
 
 const processList = (data) => {
-  console.log(data);
-
   (data || []).forEach((i) => {
     let typeArr = [];
     i.types = i.typesLine.map((type) => {
@@ -257,3 +255,4 @@ const processList = (data) => {
 };
 
 processList(data);
+// console.log(navList.value);

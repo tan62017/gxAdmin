@@ -1,12 +1,12 @@
 <template>
-  <div class="right-item" :class="{ 'right-item-hidden': !data?.show }" @click="change(data)">
-    <div class="img" :style="{ backgroundImage: ` url(${data?.icon})` }"></div>
+  <div class="right-item" :class="{ 'right-item-hidden': !data?.is_show }" @click="change(data)">
+    <div class="img" :style="{ backgroundImage: ` url(${data?.img})` }"></div>
     <div class="text-box">
-      <div class="label">{{ data?.label }}</div>
+      <div class="label">{{ data?.name }}</div>
       <div class="types">
         {{ data?.typesLine?.join('、') }}
       </div>
-      <div class="looks">访问量：{{ data?.num }}</div>
+      <div class="looks">访问量：{{ data?.view_count }}</div>
     </div>
   </div>
 </template>

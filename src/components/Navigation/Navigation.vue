@@ -7,6 +7,7 @@ import user from '@/assets/images/user.png';
 
 const route = useRoute();
 const userStore = useUserStore();
+const userInfo = toRef(userStore, 'userInfo');
 
 async function logout() {
   userStore.logout();
@@ -65,7 +66,9 @@ const breadcrumbs = computed(() => {
         </template>
       </el-popconfirm>
 
-      <span class="mr10px">欢迎您，{{ userStore.userInfo.userName }}</span>
+      <span class="mr10px"
+        >欢迎您，<span class="color-#0645ED">{{ userInfo?.user?.username || '' }}</span></span
+      >
       <el-avatar :size="65" :src="user" />
     </div>
   </div>

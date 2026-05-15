@@ -38,7 +38,6 @@ export const getLocalStorage = (key) => {
 
 export const setLocalStorage = (key, data) => {
   window.localStorage.setItem(key, JSON.stringify(data));
-  // return JSON.parse(window.localStorage.getItem(key));
 };
 
 /**
@@ -55,6 +54,37 @@ export const useSessionStorage = (key, ...args) => _useSessionStorage(prefix + k
  * @returns { import('vue').Ref<any> }
  */
 export const useLocalStorage = (key, ...args) => _useLocalStorage(prefix + key, ...args);
+
+/**
+ * 设置token储存
+ * @param {*} token
+ */
+export const setToken = (token) => {
+  setLocalStorage('USER_TOKEN', token);
+};
+
+export const getToken = () => {
+  return getLocalStorage('USER_TOKEN');
+};
+
+export const removeToken = () => {
+  window.localStorage.removeItem('USER_TOKEN');
+};
+
+export const setLocalUser = (user) => {
+  setLocalStorage('GX_ADMIN_USER_INFO', user);
+};
+
+export const getLocalUser = () => {
+  return getLocalStorage('GX_ADMIN_USER_INFO');
+};
+
+export const removeLocalUser = () => {
+  console.log(99999999);
+
+  window.localStorage.removeItem('GX_ADMIN_USER_INFO');
+};
+
 /**
  *
  * @param {number} ms
