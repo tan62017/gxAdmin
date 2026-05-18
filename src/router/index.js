@@ -208,6 +208,22 @@ export const defaultRoutes = [
     ],
   },
   {
+    path: '/update-system-data',
+    name: 'UpdateSystemData',
+    component: () => import('@/views/UpdateSystemData/UpdateSystemData.vue'),
+    meta: {
+      active: '/update-system-data',
+      showMenu: true,
+      title: '数据上传',
+      isMenu: true,
+      elIcon: 'el-icon-state',
+      elIconAc: 'el-icon-stateAc',
+      navigation: true,
+      isOpen: true,
+      isSelect: true,
+    },
+  },
+  {
     path: '/user',
     name: 'user',
     component: NavRouter,

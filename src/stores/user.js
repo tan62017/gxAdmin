@@ -53,6 +53,10 @@ export const useUserStore = defineStore('user', () => {
           setLocalUser(userMsg);
           userInfo.value = userMsg;
         }
+        if (!res.data.roles?.length) {
+          ElMessage.error('用户无权限......');
+          return;
+        }
         const timer = setTimeout(() => {
           clearTimeout(timer);
           loginLoading.value = false;
@@ -118,6 +122,10 @@ export const useUserStore = defineStore('user', () => {
       setToken(res.data?.token);
       setLocalUser(res.data);
       userInfo.value = res.data;
+      if (!res.data.roles?.length) {
+        ElMessage.error('用户无权限......');
+        return false;
+      }
       return true;
       // await getUserInfo();
     } else {
